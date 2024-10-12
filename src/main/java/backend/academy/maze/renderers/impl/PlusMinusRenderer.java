@@ -222,7 +222,7 @@ public class PlusMinusRenderer implements Renderer {
     }
 
     private static void drawEmptyCorner(StringBuilder line) {
-        line.append("+");
+        line.append("+\n");
     }
 
     private static void drawEmptyHorizontalWall(StringBuilder line) {
@@ -236,7 +236,7 @@ public class PlusMinusRenderer implements Renderer {
     ) {
         firstLine.append("| ");
         firstLine.append(surfaceSymbol);
-        firstLine.append("  ");
+        firstLine.append(" ");
         secondLine.append("|   ");
     }
 
