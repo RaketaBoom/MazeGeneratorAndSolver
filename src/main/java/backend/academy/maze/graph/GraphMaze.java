@@ -60,9 +60,6 @@ public class GraphMaze {
     }
 
     public Coordinate getCoordinateOfVertex(Vertex v){
-        if (!isContainVertex(v)){
-            throw new VertexNotInGraphException();
-        }
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if (graph[i][j] == v){
