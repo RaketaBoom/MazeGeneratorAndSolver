@@ -1,6 +1,7 @@
 package backend.academy.maze.graph;
 
 import backend.academy.maze.exceptions.IllegalCoordinateValueException;
+import backend.academy.maze.exceptions.InvalidMazeSizeException;
 import backend.academy.maze.exceptions.NonAdjacentVerticesException;
 import backend.academy.maze.exceptions.SelfLoopException;
 import backend.academy.maze.exceptions.VertexNotInGraphException;
@@ -15,6 +16,9 @@ public class GraphMaze {
     private final Vertex[][] graph;
 
     public GraphMaze(int height, int width){
+        if (height < 1 || width < 1){
+            throw new InvalidMazeSizeException();
+        }
         this.height = height;
         this.width = width;
         this.graph = generateEmptyGraph(height, width);
