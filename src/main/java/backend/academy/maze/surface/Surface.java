@@ -1,4 +1,4 @@
-package backend.academy.maze.graph;
+package backend.academy.maze.surface;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

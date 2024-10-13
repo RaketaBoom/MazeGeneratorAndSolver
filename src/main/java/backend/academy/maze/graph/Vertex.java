@@ -9,22 +9,30 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Vertex {
+    private int row;
+    private int col;
+    private int skeletonNumber;
     private Edge right;
     private Edge left;
     private Edge up;
     private Edge dawn;
 
+    public Vertex (int row, int col){
+        this.row = row;
+        this.col = col;
+    }
+
     public Optional<Edge> findEdge(Vertex v) {
-        if (right != null && (right.v1() == v || right.v2() == v)) {
+        if (right != null && right.contain(v)) {
             return Optional.of(right);
         }
-        if (left != null && (left.v1() == v || left.v2() == v)) {
+        if (left != null && left.contain(v)) {
             return Optional.of(left);
         }
-        if (up != null && (up.v1() == v || up.v2() == v)) {
+        if (up != null && up.contain(v)) {
             return Optional.of(up);
         }
-        if (dawn != null && (dawn.v1() == v || dawn.v2() == v)) {
+        if (dawn != null && dawn.contain(v)) {
             return Optional.of(dawn);
         }
         return Optional.empty();

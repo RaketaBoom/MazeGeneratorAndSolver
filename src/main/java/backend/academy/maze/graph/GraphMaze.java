@@ -5,8 +5,11 @@ import backend.academy.maze.exceptions.InvalidMazeSizeException;
 import backend.academy.maze.exceptions.NonAdjacentVerticesException;
 import backend.academy.maze.exceptions.SelfLoopException;
 import backend.academy.maze.exceptions.VertexNotInGraphException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import backend.academy.maze.surface.Surface;
 import lombok.Getter;
 
 @Getter
@@ -34,18 +37,18 @@ public class GraphMaze {
         Vertex[][] matrix = new Vertex[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                matrix[i][j] = new Vertex();
+                matrix[i][j] = new Vertex(i, j);
             }
         }
         return matrix;
     }
-    public boolean isContainVertex(Vertex v){
+    public boolean containVertex(Vertex v){
         return Arrays.stream(graph)
             .flatMap(Arrays::stream)
             .anyMatch(x -> x == v);
     }
     public Optional<Edge> findEdge(Vertex v1, Vertex v2){
-        if(!isContainVertex(v1) && isContainVertex(v2)){
+        if(!containVertex(v1) && containVertex(v2)){
             return Optional.empty();
         }
         return v1.findEdge(v2);
@@ -100,5 +103,34 @@ public class GraphMaze {
             v2.up(edge);
         }
         return edge;
+    }
+
+    public List<Coordinate> findAdjacentUnvisitedCoordinates(Coordinate currCoordinate) {
+        List<Coordinate> adjacentCoordinates = new ArrayList<>();
+
+        Coordinate[] directions = {
+            new Coordinate(0, 1),   // Вверх
+            new Coordinate(1, 0),   // Вправо
+            new Coordinate(0, -1),  // Вниз
+            new Coordinate(-1, 0)   // Влево
+        };
+
+        for (Coordinate direction: directions) {
+            Coordinate newCoordinate = currCoordinate.add(direction);
+
+            if (isWithinBounds(newCoordinate) && isUnvisitedCoordinate(newCoordinate)) {
+                adjacentCoordinates.add(newCoordinate);
+            }
+        }
+
+        return adjacentCoordinates;
+    }
+
+    private boolean isUnvisitedCoordinate(Coordinate coordinate) {
+        return getVertex(coordinate).skeletonNumber() == 0;
+    }
+
+    private boolean isWithinBounds(Coordinate coordinate) {
+        return coordinate.col() >= 0 && coordinate.col() < width && coordinate.row() >= 0 && coordinate.row() < height;
     }
 }
