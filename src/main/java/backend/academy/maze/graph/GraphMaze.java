@@ -126,6 +126,20 @@ public class GraphMaze {
         return adjacentCoordinates;
     }
 
+    public List<Vertex> findSkeletonOfVertex(Vertex vertex){
+        List<Vertex> list = new ArrayList<>();
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (graph[i][j].skeletonNumber() == vertex.skeletonNumber()
+                    && graph[i][j].skeletonNumber() != 0){
+                    list.add(graph[i][j]);
+                }
+            }
+        }
+        return list;
+    }
+
     private boolean isUnvisitedCoordinate(Coordinate coordinate) {
         return getVertex(coordinate).skeletonNumber() == 0;
     }
