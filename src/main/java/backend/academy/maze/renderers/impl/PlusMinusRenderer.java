@@ -1,5 +1,6 @@
 package backend.academy.maze.renderers.impl;
 
+import backend.academy.maze.graph.Coordinate;
 import backend.academy.maze.graph.Edge;
 import backend.academy.maze.graph.GraphMaze;
 import backend.academy.maze.graph.Vertex;
@@ -10,8 +11,37 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PlusMinusRenderer implements Renderer {
+    private static final char PATH_SYMBOL = '@';
     @Override
     public String render(GraphMaze graphMaze) {
+        List<StringBuilder> lines = createLinesOfGraph(graphMaze);
+
+        return getStringFromLines(lines);
+    }
+
+    private static String getStringFromLines(List<StringBuilder> lines) {
+        return lines.stream()
+            .map(StringBuilder::toString)
+            .collect(Collectors.joining("\n"));
+    }
+
+    @Override
+    public String render(GraphMaze graphMaze, List<Coordinate> path) {
+        List<StringBuilder> lines = createLinesOfGraph(graphMaze);
+        drawPath(lines, path);
+
+        return getStringFromLines(lines);
+    }
+
+    private void drawPath(List<StringBuilder> lines, List<Coordinate> path) {
+        for (Coordinate coord: path) {
+            int col = 2 + 4*coord.col();
+            int row = 1 + 2* coord.row();
+            lines.get(row).setCharAt(col, PATH_SYMBOL);
+        }
+    }
+
+    private List<StringBuilder> createLinesOfGraph(GraphMaze graphMaze){
         int n = graphMaze.height();
         List<StringBuilder> lines = generateLines(n * 2 + 1);
         fillFirstStep(lines, graphMaze);
@@ -20,9 +50,7 @@ public class PlusMinusRenderer implements Renderer {
         fillFourthStep(lines, graphMaze);
         fillFifthStep(lines, graphMaze);
 
-        return lines.stream()
-            .map(StringBuilder::toString)
-            .collect(Collectors.joining("\n"));
+        return lines;
     }
 
     private List<StringBuilder> generateLines(int size) {
