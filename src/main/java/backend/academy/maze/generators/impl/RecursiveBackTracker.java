@@ -3,20 +3,19 @@ package backend.academy.maze.generators.impl;
 import backend.academy.maze.generators.Generator;
 import backend.academy.maze.graph.Coordinate;
 import backend.academy.maze.graph.GraphMaze;
-import backend.academy.maze.graph.Vertex;
 import backend.academy.maze.surface.RandomSurfaceGenerator;
-import lombok.RequiredArgsConstructor;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Stack;
+import java.util.Set;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RecursiveBackTracker implements Generator {
     public final Random random;
-
 
     /**
      * Метод Рекурсивного бэк трекера
@@ -28,35 +27,71 @@ public class RecursiveBackTracker implements Generator {
      * Иначе шаг 4
      * 4. Достаем вершину из стека и проделываем шаги 2-3
      * 5. Алгоритм заканчивает работу, когда стэк становится пустым
-     * @param height - высота лабиринта
-     * @param width - ширина лабиринта
+     *
+     * @param height           - высота лабиринта
+     * @param width            - ширина лабиринта
+     * @param earthProbability - вероятность пустого прохода
      * @return граф сгенерированного лабиринта
      */
     @Override
     public GraphMaze generate(int height, int width, double earthProbability) {
         GraphMaze graphMaze = new GraphMaze(height, width);
         RandomSurfaceGenerator surfaceGenerator = new RandomSurfaceGenerator(random);
+        Set<Coordinate> visitedCoordinates = new HashSet<>();
         Deque<Coordinate> stack = new ArrayDeque<>();
 
-
         Coordinate currCoordinate = new Coordinate(0, 0);
-        markVertexAsVisited(graphMaze.getVertex(currCoordinate));
+        markCoordinateAsVisited(currCoordinate, visitedCoordinates);
         stack.add(currCoordinate);
 
-        while(!stack.isEmpty()){
-            List<Coordinate> unvisitedCoordinates = graphMaze.findAdjacentUnvisitedCoordinates(currCoordinate);
-            if (!unvisitedCoordinates.isEmpty()){
+        while (!stack.isEmpty()) {
+            List<Coordinate> unvisitedCoordinates =
+                findAdjacentUnvisitedCoordinates(graphMaze, currCoordinate, visitedCoordinates);
+            if (!unvisitedCoordinates.isEmpty()) {
                 Coordinate neighbour = getRandomCoordinate(unvisitedCoordinates);
                 graphMaze.addEdge(currCoordinate, neighbour, surfaceGenerator.getSurface(earthProbability));
                 stack.push(neighbour);
                 currCoordinate = neighbour;
-                markVertexAsVisited(graphMaze.getVertex(currCoordinate));
-            }else
-            {
+                markCoordinateAsVisited(currCoordinate, visitedCoordinates);
+            } else {
                 currCoordinate = stack.pop();
             }
         }
         return graphMaze;
+    }
+
+    private List<Coordinate> findAdjacentUnvisitedCoordinates(
+        GraphMaze graphMaze,
+        Coordinate currCoordinate,
+        Set<Coordinate> visitedCoordinates
+    ) {
+        List<Coordinate> adjacentCoordinates = new ArrayList<>();
+
+        Coordinate[] directions = {
+            new Coordinate(0, 1),   // Вверх
+            new Coordinate(1, 0),   // Вправо
+            new Coordinate(0, -1),  // Вниз
+            new Coordinate(-1, 0)   // Влево
+        };
+
+        for (Coordinate direction : directions) {
+            Coordinate newCoordinate = currCoordinate.add(direction);
+
+            if (isWithinBounds(newCoordinate, graphMaze.height(), graphMaze.width()) &&
+                isUnvisitedCoordinate(newCoordinate, visitedCoordinates)) {
+                adjacentCoordinates.add(newCoordinate);
+            }
+        }
+
+        return adjacentCoordinates;
+    }
+
+    private boolean isUnvisitedCoordinate(Coordinate coordinate, Set<Coordinate> visitedCoordinates) {
+        return !visitedCoordinates.contains(coordinate);
+    }
+
+    private boolean isWithinBounds(Coordinate coordinate, int height, int width) {
+        return coordinate.col() >= 0 && coordinate.col() < width && coordinate.row() >= 0 && coordinate.row() < height;
     }
 
     private Coordinate getRandomCoordinate(List<Coordinate> unvisitedCoordinates) {
@@ -69,8 +104,8 @@ public class RecursiveBackTracker implements Generator {
         return unvisitedCoordinates.get(randomIndex);
     }
 
-    void markVertexAsVisited(Vertex vertex){
-        vertex.skeletonNumber(1);
+    void markCoordinateAsVisited(Coordinate coordinate, Set<Coordinate> visitedCoordinates) {
+        visitedCoordinates.add(coordinate);
     }
 
 }

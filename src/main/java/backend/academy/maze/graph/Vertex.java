@@ -11,7 +11,6 @@ import lombok.Setter;
 public class Vertex {
     private int row;
     private int col;
-    private int skeletonNumber;
     private Edge right;
     private Edge left;
     private Edge up;

@@ -3,14 +3,15 @@ package backend.academy.maze.generators.impl;
 import backend.academy.maze.generators.Generator;
 import backend.academy.maze.graph.Coordinate;
 import backend.academy.maze.graph.GraphMaze;
-import backend.academy.maze.graph.Vertex;
 import backend.academy.maze.surface.RandomSurfaceGenerator;
 import backend.academy.maze.surface.Surface;
-import lombok.RequiredArgsConstructor;
-import java.net.CookieHandler;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class KruskalMethod implements Generator {
@@ -25,90 +26,100 @@ public class KruskalMethod implements Generator {
      * то соединяем их ребром и помечаем полученный остов одним номером (Наименьшим номером остова)
      * 3. Соединяем до тех пор, пока не переберем все соседние вершины
      *
-     * @param height - высота лабиринта
-     * @param width - ширина лабиринта
+     * @param height           - высота лабиринта
+     * @param width            - ширина лабиринта
      * @param earthProbability - вероятность пустого прохода
-     * @return
      */
     @Override
     public GraphMaze generate(int height, int width, double earthProbability) {
         numberSkeleton = 1;
+        Map<Coordinate, Integer> coordinateSkeletonMap = new HashMap<>();
         GraphMaze graphMaze = new GraphMaze(height, width);
         RandomSurfaceGenerator surfaceGenerator = new RandomSurfaceGenerator(random);
         List<Pair> pairsAdjacentCoordinates = getPairsAdjacentCoordinates(height, width);
 
-        while(!pairsAdjacentCoordinates.isEmpty()){
+        while (!pairsAdjacentCoordinates.isEmpty()) {
             Pair pair = chooseRandomPairCoordinates(pairsAdjacentCoordinates);
-            if (isDifferentSkeletons(graphMaze, pair)){
+            if (isDifferentSkeletons(pair, coordinateSkeletonMap)) {
                 createEdge(graphMaze, pair, surfaceGenerator.getSurface(earthProbability));
-                markVertexBelongingToOneSkeleton(graphMaze, pair);
+                markVertexBelongingToOneSkeleton(pair, coordinateSkeletonMap);
             }
         }
         return graphMaze;
     }
 
-    private List<Pair> getPairsAdjacentCoordinates(int height, int width){
+    private List<Pair> getPairsAdjacentCoordinates(int height, int width) {
         List<Pair> list = new ArrayList<>(); // Надо записать емкость
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width - 1; j++) {
-                list.add(new Pair(new Coordinate(i, j), new Coordinate(i, j+1)));
+                list.add(new Pair(new Coordinate(i, j), new Coordinate(i, j + 1)));
             }
         }
         for (int j = 0; j < width; j++) {
             for (int i = 0; i < height - 1; i++) {
-                list.add(new Pair(new Coordinate(i, j), new Coordinate(i+1, j)));
+                list.add(new Pair(new Coordinate(i, j), new Coordinate(i + 1, j)));
             }
         }
         return list;
     }
 
-    private Pair chooseRandomPairCoordinates(List<Pair> list){
+    private Pair chooseRandomPairCoordinates(List<Pair> list) {
         int index = random.nextInt(list.size());
         return list.remove(index);
     }
 
-    private boolean isDifferentSkeletons(GraphMaze graphMaze, Pair pair) {
-        Vertex first = graphMaze.getVertex(pair.first());
-        Vertex second = graphMaze.getVertex(pair.second());
-        return first.skeletonNumber() != second.skeletonNumber()
-            || first.skeletonNumber() == 0;
+    private boolean isDifferentSkeletons(Pair pair, Map<Coordinate, Integer> coordinateSkeletonMap) {
+        if (!coordinateSkeletonMap.containsKey(pair.first()) || !coordinateSkeletonMap.containsKey(pair.second())) {
+            return true;
+        }
+        return !coordinateSkeletonMap.get(pair.first()).equals(coordinateSkeletonMap.get(pair.second()));
     }
 
-    private void createEdge(GraphMaze graphMaze, Pair pair, Surface surface){
+    private void createEdge(GraphMaze graphMaze, Pair pair, Surface surface) {
         graphMaze.addEdge(pair.first(), pair.second(), surface);
     }
 
-    private void markVertexBelongingToOneSkeleton(GraphMaze graphMaze, Pair pair){
-        Vertex first = graphMaze.getVertex(pair.first());
-        Vertex second = graphMaze.getVertex(pair.second());
-        if (first.skeletonNumber() == 0
-        && second.skeletonNumber() == 0){
-            first.skeletonNumber(numberSkeleton);
-            second.skeletonNumber(numberSkeleton);
+    private void markVertexBelongingToOneSkeleton(Pair pair, Map<Coordinate, Integer> coordinateSkeletonMap) {
+        Coordinate first = pair.first();
+        Coordinate second = pair.second();
+        Optional<Integer> firstSkeleton = Optional.ofNullable(coordinateSkeletonMap.get(first));
+        Optional<Integer> secondSkeleton = Optional.ofNullable(coordinateSkeletonMap.get(second));
+        if (firstSkeleton.isEmpty()
+            && secondSkeleton.isEmpty()) {
+            coordinateSkeletonMap.put(first, numberSkeleton);
+            coordinateSkeletonMap.put(second, numberSkeleton);
             numberSkeleton += 1;
             return;
         }
-        if (first.skeletonNumber() == 0){ // DRY???
-            first.skeletonNumber(second.skeletonNumber());
+        if (firstSkeleton.isEmpty()) { // DRY???
+            coordinateSkeletonMap.put(first, secondSkeleton.get());
             return;
         }
-        if (second.skeletonNumber() == 0){
-           second.skeletonNumber(first.skeletonNumber());
+        if (secondSkeleton.isEmpty()) {
+            coordinateSkeletonMap.put(second, firstSkeleton.get());
             return;
         }
-        if (first.skeletonNumber() < second.skeletonNumber()){
-            graphMaze.findSkeletonOfVertex(second)
-                .forEach(x -> x.skeletonNumber(first.skeletonNumber()));
+        if (firstSkeleton.get() < secondSkeleton.get()) {
+            coordinateSkeletonMap
+                .keySet()
+                .stream()
+                .filter(x -> coordinateSkeletonMap.get(x).equals(secondSkeleton.get()))
+                .forEach(x -> coordinateSkeletonMap.put(x, firstSkeleton.get()));
             return;
         }
-        if (first.skeletonNumber() > second.skeletonNumber()){
-            graphMaze.findSkeletonOfVertex(first)
-                .forEach(x -> x.skeletonNumber(second.skeletonNumber()));
+        if (firstSkeleton.get() > secondSkeleton.get()) {
+            coordinateSkeletonMap
+                .keySet()
+                .stream()
+                .filter(x -> coordinateSkeletonMap.get(x).equals(firstSkeleton.get()))
+                .forEach(x -> coordinateSkeletonMap.put(x, secondSkeleton.get()));
         }
+    }
+
+    record Pair(
+        Coordinate first,
+        Coordinate second
+    ) {
     }
 }
 
-record Pair(
-    Coordinate first,
-    Coordinate second
-){}

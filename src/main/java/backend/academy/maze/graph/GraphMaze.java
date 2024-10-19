@@ -5,9 +5,7 @@ import backend.academy.maze.exceptions.InvalidMazeSizeException;
 import backend.academy.maze.exceptions.NonAdjacentVerticesException;
 import backend.academy.maze.exceptions.SelfLoopException;
 import backend.academy.maze.exceptions.VertexNotInGraphException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import backend.academy.maze.surface.Surface;
 import lombok.Getter;
@@ -105,46 +103,4 @@ public class GraphMaze {
         return edge;
     }
 
-    public List<Coordinate> findAdjacentUnvisitedCoordinates(Coordinate currCoordinate) {
-        List<Coordinate> adjacentCoordinates = new ArrayList<>();
-
-        Coordinate[] directions = {
-            new Coordinate(0, 1),   // Вверх
-            new Coordinate(1, 0),   // Вправо
-            new Coordinate(0, -1),  // Вниз
-            new Coordinate(-1, 0)   // Влево
-        };
-
-        for (Coordinate direction: directions) {
-            Coordinate newCoordinate = currCoordinate.add(direction);
-
-            if (isWithinBounds(newCoordinate) && isUnvisitedCoordinate(newCoordinate)) {
-                adjacentCoordinates.add(newCoordinate);
-            }
-        }
-
-        return adjacentCoordinates;
-    }
-
-    public List<Vertex> findSkeletonOfVertex(Vertex vertex){
-        List<Vertex> list = new ArrayList<>();
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (graph[i][j].skeletonNumber() == vertex.skeletonNumber()
-                    && graph[i][j].skeletonNumber() != 0){
-                    list.add(graph[i][j]);
-                }
-            }
-        }
-        return list;
-    }
-
-    private boolean isUnvisitedCoordinate(Coordinate coordinate) {
-        return getVertex(coordinate).skeletonNumber() == 0;
-    }
-
-    private boolean isWithinBounds(Coordinate coordinate) {
-        return coordinate.col() >= 0 && coordinate.col() < width && coordinate.row() >= 0 && coordinate.row() < height;
-    }
 }
