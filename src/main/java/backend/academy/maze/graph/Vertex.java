@@ -1,5 +1,7 @@
 package backend.academy.maze.graph;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,15 @@ public class Vertex {
             return Optional.of(dawn);
         }
         return Optional.empty();
+    }
+
+    public List<Edge> findAllEdges(){
+        List<Edge> list = new ArrayList<>(4);
+        if (right != null) list.add(right);
+        if (left != null) list.add(left);
+        if (up != null) list.add(up);
+        if (dawn != null) list.add(dawn);
+        return list;
     }
 
 }
