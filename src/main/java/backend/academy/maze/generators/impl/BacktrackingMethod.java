@@ -1,8 +1,8 @@
 package backend.academy.maze.generators.impl;
 
 import backend.academy.maze.generators.Generator;
-import backend.academy.maze.graph.Coordinate;
-import backend.academy.maze.graph.GraphMaze;
+import backend.academy.maze.models.Coordinate;
+import backend.academy.maze.models.GraphMaze;
 import backend.academy.maze.surface.RandomSurfaceGenerator;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class RecursiveBackTracker implements Generator {
+public class BacktrackingMethod implements Generator {
     public final Random random;
 
     /**
@@ -34,7 +34,7 @@ public class RecursiveBackTracker implements Generator {
      * @return граф сгенерированного лабиринта
      */
     @Override
-    public GraphMaze generate(int height, int width, double earthProbability) {
+    public GraphMaze generate(int height, int width, double earthProbability, boolean perfectFlag) {
         GraphMaze graphMaze = new GraphMaze(height, width);
         RandomSurfaceGenerator surfaceGenerator = new RandomSurfaceGenerator(random);
         Set<Coordinate> visitedCoordinates = new HashSet<>();

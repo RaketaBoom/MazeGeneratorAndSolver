@@ -1,5 +1,6 @@
 package backend.academy.maze.surface;
 
+import backend.academy.maze.enums.Surface;
 import backend.academy.maze.exceptions.IllegalProbabilityValueException;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;

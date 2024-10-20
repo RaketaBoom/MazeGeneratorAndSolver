@@ -1,4 +1,4 @@
-package backend.academy.maze.surface;
+package backend.academy.maze.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

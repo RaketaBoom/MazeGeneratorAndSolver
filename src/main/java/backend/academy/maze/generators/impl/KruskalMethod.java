@@ -1,10 +1,10 @@
 package backend.academy.maze.generators.impl;
 
+import backend.academy.maze.enums.Surface;
 import backend.academy.maze.generators.Generator;
-import backend.academy.maze.graph.Coordinate;
-import backend.academy.maze.graph.GraphMaze;
+import backend.academy.maze.models.Coordinate;
+import backend.academy.maze.models.GraphMaze;
 import backend.academy.maze.surface.RandomSurfaceGenerator;
-import backend.academy.maze.surface.Surface;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +31,7 @@ public class KruskalMethod implements Generator {
      * @param earthProbability - вероятность пустого прохода
      */
     @Override
-    public GraphMaze generate(int height, int width, double earthProbability) {
+    public GraphMaze generate(int height, int width, double earthProbability, boolean perfectFlag) {
         numberSkeleton = 1;
         Map<Coordinate, Integer> coordinateSkeletonMap = new HashMap<>();
         GraphMaze graphMaze = new GraphMaze(height, width);

@@ -1,9 +1,10 @@
 package backend.academy.maze.solvers.impl;
 
-import backend.academy.maze.graph.Coordinate;
-import backend.academy.maze.graph.Edge;
-import backend.academy.maze.graph.GraphMaze;
-import backend.academy.maze.graph.Vertex;
+import backend.academy.maze.models.Coordinate;
+import backend.academy.maze.models.Edge;
+import backend.academy.maze.models.GraphMaze;
+import backend.academy.maze.models.Solution;
+import backend.academy.maze.models.Vertex;
 import backend.academy.maze.solvers.Solver;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +17,7 @@ import java.util.PriorityQueue;
 public class DijkstraAlgorithm implements Solver {
 
     @Override
-    public List<Coordinate> solve(GraphMaze maze, Coordinate start, Coordinate end) {
+    public Solution solve(GraphMaze maze, Coordinate start, Coordinate end) {
 
         Map<Coordinate, Integer> distances = new HashMap<>();
 
@@ -38,7 +39,7 @@ public class DijkstraAlgorithm implements Solver {
             Coordinate current = queue.poll();
 
             if (current.equals(end)) {
-                return reconstructPath(previous, start, end);
+                return new Solution(reconstructPath(previous, start, end), distances.get(end));
             }
 
             Vertex currentVertex = maze.getVertex(current);
@@ -59,7 +60,7 @@ public class DijkstraAlgorithm implements Solver {
         }
 
         // Если не удалось найти путь, возвращаем пустой список
-        return Collections.emptyList();
+        return new Solution(Collections.emptyList(), 0);
     }
 
     private List<Coordinate> reconstructPath(Map<Coordinate, Coordinate> previous, Coordinate start, Coordinate end) {

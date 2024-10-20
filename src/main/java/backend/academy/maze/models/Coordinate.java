@@ -1,4 +1,4 @@
-package backend.academy.maze.graph;
+package backend.academy.maze.models;
 
 public record Coordinate(int row, int col) {
     public Coordinate add(Coordinate other) {

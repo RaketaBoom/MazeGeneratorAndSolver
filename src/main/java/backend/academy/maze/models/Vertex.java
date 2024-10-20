@@ -1,4 +1,4 @@
-package backend.academy.maze.graph;
+package backend.academy.maze.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class Vertex {
     private Edge up;
     private Edge dawn;
 
-    public Vertex (int row, int col){
+    public Vertex(int row, int col) {
         this.row = row;
         this.col = col;
     }
@@ -39,12 +39,20 @@ public class Vertex {
         return Optional.empty();
     }
 
-    public List<Edge> findAllEdges(){
+    public List<Edge> findAllEdges() {
         List<Edge> list = new ArrayList<>(4);
-        if (right != null) list.add(right);
-        if (left != null) list.add(left);
-        if (up != null) list.add(up);
-        if (dawn != null) list.add(dawn);
+        if (right != null) {
+            list.add(right);
+        }
+        if (left != null) {
+            list.add(left);
+        }
+        if (up != null) {
+            list.add(up);
+        }
+        if (dawn != null) {
+            list.add(dawn);
+        }
         return list;
     }
 
