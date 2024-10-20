@@ -1,5 +1,7 @@
 package backend.academy.maze.generators.impl;
 
+import backend.academy.maze.exceptions.IllegalEarthProbabilityException;
+import backend.academy.maze.exceptions.IllegalSizeValueException;
 import backend.academy.maze.generators.Generator;
 import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.GraphMaze;
@@ -16,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BacktrackingMethod implements Generator {
     public final Random random;
-
+    private static final double MAX_EARTH_PROBABILITY = 1;
     /**
      * Метод Рекурсивного бэк трекера
      * Алгоритм:
@@ -35,6 +37,7 @@ public class BacktrackingMethod implements Generator {
      */
     @Override
     public GraphMaze generate(int height, int width, double earthProbability, boolean perfectFlag) {
+        checkAttributes(height, width, earthProbability);
         GraphMaze graphMaze = new GraphMaze(height, width);
         RandomSurfaceGenerator surfaceGenerator = new RandomSurfaceGenerator(random);
         Set<Coordinate> visitedCoordinates = new HashSet<>();
@@ -58,6 +61,15 @@ public class BacktrackingMethod implements Generator {
             }
         }
         return graphMaze;
+    }
+
+    private void checkAttributes(int height, int width, double earthProbability) {
+        if(height <= 0 || width <= 0){
+            throw new IllegalSizeValueException();
+        }
+        if(earthProbability <= 0 || earthProbability > MAX_EARTH_PROBABILITY){
+            throw new IllegalEarthProbabilityException();
+        }
     }
 
     private List<Coordinate> findAdjacentUnvisitedCoordinates(
@@ -104,7 +116,7 @@ public class BacktrackingMethod implements Generator {
         return unvisitedCoordinates.get(randomIndex);
     }
 
-    void markCoordinateAsVisited(Coordinate coordinate, Set<Coordinate> visitedCoordinates) {
+    private void markCoordinateAsVisited(Coordinate coordinate, Set<Coordinate> visitedCoordinates) {
         visitedCoordinates.add(coordinate);
     }
 

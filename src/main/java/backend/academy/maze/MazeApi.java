@@ -19,20 +19,16 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Random;
 import java.util.Scanner;
+import static backend.academy.maze.config.Config.EARTH_PROBABILITY;
 
 public class MazeApi {
-    public static final int MAX_HEIGHT = 20;
-    public static final int MAX_WIDTH = 20;
-    public static final double EARTH_PROBABILITY = 0.75;
-
     private final InputHandler input;
     private final ConsoleDisplay display;
     private final Random random = new Random();
     private final Renderer renderer = new PlusMinusRenderer();
 
     public MazeApi(InputStream inputStream, PrintStream outputStream) {
-        InputValidator inputValidator = new InputValidator(MAX_HEIGHT, MAX_WIDTH);
-        this.input = new InputHandler(new Scanner(inputStream), inputValidator);
+        this.input = new InputHandler(new Scanner(inputStream), new InputValidator());
         this.display = new ConsoleDisplay(outputStream);
     }
 

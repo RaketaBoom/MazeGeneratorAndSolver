@@ -1,6 +1,8 @@
 package backend.academy.maze.generators.impl;
 
 import backend.academy.maze.enums.Surface;
+import backend.academy.maze.exceptions.IllegalEarthProbabilityException;
+import backend.academy.maze.exceptions.IllegalSizeValueException;
 import backend.academy.maze.generators.Generator;
 import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.GraphMaze;
@@ -32,6 +34,7 @@ public class KruskalMethod implements Generator {
      */
     @Override
     public GraphMaze generate(int height, int width, double earthProbability, boolean perfectFlag) {
+        checkAttributes(height, width, earthProbability);
         numberSkeleton = 1;
         Map<Coordinate, Integer> coordinateSkeletonMap = new HashMap<>();
         GraphMaze graphMaze = new GraphMaze(height, width);
@@ -113,6 +116,15 @@ public class KruskalMethod implements Generator {
                 .stream()
                 .filter(x -> coordinateSkeletonMap.get(x).equals(firstSkeleton.get()))
                 .forEach(x -> coordinateSkeletonMap.put(x, secondSkeleton.get()));
+        }
+    }
+
+    private void checkAttributes(int height, int width, double earthProbability) {
+        if(height <= 0 || width <= 0){
+            throw new IllegalSizeValueException();
+        }
+        if(earthProbability <= 0 || earthProbability > MAX_EARTH_PROBABILITY){
+            throw new IllegalEarthProbabilityException();
         }
     }
 

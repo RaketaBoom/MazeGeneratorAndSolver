@@ -6,12 +6,11 @@ import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import static backend.academy.maze.config.Config.MAX_HEIGHT;
+import static backend.academy.maze.config.Config.MAX_WIDTH;
 
-@RequiredArgsConstructor
 @Setter
 public class InputValidator {
-    private final int maxHeight;
-    private final int maxWidth;
     private Size currSize;
 
     public boolean isGeneratorNumber(String t) {
@@ -26,8 +25,8 @@ public class InputValidator {
     }
 
     public boolean isCorrectSize(Size size) {
-        return size.height() > 0 && size.height() <= maxHeight
-            && size.width() > 0 && size.width() <= maxWidth;
+        return size.height() > 0 && size.height() <= MAX_HEIGHT
+            && size.width() > 0 && size.width() <= MAX_WIDTH;
     }
 
     public boolean isCorrectCoordinate(Coordinate coordinate) {
