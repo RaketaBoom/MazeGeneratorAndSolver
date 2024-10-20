@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class KruskalMethod implements Generator {
     private final Random random;
+    public final RandomSurfaceGenerator surfaceGenerator;
     private int numberSkeleton;
 
     /**
@@ -38,7 +39,6 @@ public class KruskalMethod implements Generator {
         numberSkeleton = 1;
         Map<Coordinate, Integer> coordinateSkeletonMap = new HashMap<>();
         GraphMaze graphMaze = new GraphMaze(height, width);
-        RandomSurfaceGenerator surfaceGenerator = new RandomSurfaceGenerator(random);
         List<Pair> pairsAdjacentCoordinates = getPairsAdjacentCoordinates(height, width);
 
         while (!pairsAdjacentCoordinates.isEmpty()) {
@@ -48,11 +48,14 @@ public class KruskalMethod implements Generator {
                 markVertexBelongingToOneSkeleton(pair, coordinateSkeletonMap);
             }
         }
+        if (!perfectFlag){
+            makeGraphImperfect(graphMaze, height, width, earthProbability);
+        }
         return graphMaze;
     }
 
     private List<Pair> getPairsAdjacentCoordinates(int height, int width) {
-        List<Pair> list = new ArrayList<>(); // Надо записать емкость
+        List<Pair> list = new ArrayList<>();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width - 1; j++) {
                 list.add(new Pair(new Coordinate(i, j), new Coordinate(i, j + 1)));
@@ -80,6 +83,18 @@ public class KruskalMethod implements Generator {
 
     private void createEdge(GraphMaze graphMaze, Pair pair, Surface surface) {
         graphMaze.addEdge(pair.first(), pair.second(), surface);
+    }
+
+    private void makeGraphImperfect(GraphMaze graphMaze, int height, int width, double earthProbability) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width - 1; j++) {
+                Coordinate c1 = new Coordinate(i, j);
+                Coordinate c2 = new Coordinate(i, j + 1);
+                if(graphMaze.findEdge(c1, c2).isEmpty()){
+                    graphMaze.addEdge(c1, c2, surfaceGenerator.getSurface(earthProbability));
+                }
+            }
+        }
     }
 
     private void markVertexBelongingToOneSkeleton(Pair pair, Map<Coordinate, Integer> coordinateSkeletonMap) {

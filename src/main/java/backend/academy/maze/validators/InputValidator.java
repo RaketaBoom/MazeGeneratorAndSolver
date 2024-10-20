@@ -4,7 +4,6 @@ import backend.academy.maze.enums.GeneratorType;
 import backend.academy.maze.enums.SolverType;
 import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.Size;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import static backend.academy.maze.config.Config.MAX_HEIGHT;
 import static backend.academy.maze.config.Config.MAX_WIDTH;
@@ -30,8 +29,8 @@ public class InputValidator {
     }
 
     public boolean isCorrectCoordinate(Coordinate coordinate) {
-        return coordinate.row() > 0 && coordinate.row() < currSize.height()
-            && coordinate.col() > 0 && coordinate.col() < currSize.width();
+        return coordinate.row() >= 0 && coordinate.row() < currSize.height()
+            && coordinate.col() >= 0 && coordinate.col() < currSize.width();
     }
 
     public boolean isYesOrNoAnswer(String input) {

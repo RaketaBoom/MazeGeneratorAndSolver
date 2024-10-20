@@ -48,6 +48,23 @@ public class GraphMaze {
         return v1.findEdge(v2);
     }
 
+    public Optional<Edge> findEdge(Coordinate c1, Coordinate c2) {
+        checkCoordinate(c1);
+        checkCoordinate(c2);
+        return findEdge(getVertex(c1), getVertex(c2));
+    }
+
+    private void checkCoordinate(Coordinate c) {
+        if (!isCoordinateInBounds(c)){
+            throw new IllegalCoordinateValueException();
+        }
+    }
+
+    private boolean isCoordinateInBounds(Coordinate coordinate) {
+        return coordinate.row() >= 0 && coordinate.row() < height
+            && coordinate.col() >= 0 && coordinate.col() < width;
+    }
+
     public Vertex getVertex(Coordinate c) {
         if ((c.row() >= height || c.row() < 0)
             && (c.col() >= width || c.col() < 0)) {
@@ -97,5 +114,7 @@ public class GraphMaze {
         }
         return edge;
     }
+
+
 
 }

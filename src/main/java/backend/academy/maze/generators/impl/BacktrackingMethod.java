@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BacktrackingMethod implements Generator {
     public final Random random;
+    public final RandomSurfaceGenerator surfaceGenerator;
     private static final double MAX_EARTH_PROBABILITY = 1;
     /**
      * Метод Рекурсивного бэк трекера
@@ -39,7 +40,6 @@ public class BacktrackingMethod implements Generator {
     public GraphMaze generate(int height, int width, double earthProbability, boolean perfectFlag) {
         checkAttributes(height, width, earthProbability);
         GraphMaze graphMaze = new GraphMaze(height, width);
-        RandomSurfaceGenerator surfaceGenerator = new RandomSurfaceGenerator(random);
         Set<Coordinate> visitedCoordinates = new HashSet<>();
         Deque<Coordinate> stack = new ArrayDeque<>();
 
@@ -60,7 +60,22 @@ public class BacktrackingMethod implements Generator {
                 currCoordinate = stack.pop();
             }
         }
+        if (!perfectFlag){
+            makeGraphImperfect(graphMaze, height, width, earthProbability);
+        }
         return graphMaze;
+    }
+
+    private void makeGraphImperfect(GraphMaze graphMaze, int height, int width, double earthProbability) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width - 1; j++) {
+                Coordinate c1 = new Coordinate(i, j);
+                Coordinate c2 = new Coordinate(i, j + 1);
+                if(graphMaze.findEdge(c1, c2).isEmpty()){
+                    graphMaze.addEdge(c1, c2, surfaceGenerator.getSurface(earthProbability));
+                }
+            }
+        }
     }
 
     private void checkAttributes(int height, int width, double earthProbability) {
