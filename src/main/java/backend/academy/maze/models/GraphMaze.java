@@ -29,7 +29,7 @@ public class GraphMaze {
         Vertex[][] matrix = new Vertex[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                matrix[i][j] = new Vertex(i, j);
+                matrix[i][j] = new Vertex();
             }
         }
         return matrix;
@@ -115,6 +115,23 @@ public class GraphMaze {
         return edge;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        GraphMaze graphMaze = (GraphMaze) o;
 
+        if (height != graphMaze.height) return false;
+        if (width != graphMaze.width) return false;
+        return Arrays.deepEquals(graph, graphMaze.graph);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = height;
+        result = 31 * result + width;
+        result = 31 * result + Arrays.deepHashCode(graph);
+        return result;
+    }
 }

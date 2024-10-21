@@ -2,6 +2,7 @@ package backend.academy.maze.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,17 +12,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Vertex {
-    private int row;
-    private int col;
     private Edge right;
     private Edge left;
     private Edge up;
     private Edge dawn;
-
-    public Vertex(int row, int col) {
-        this.row = row;
-        this.col = col;
-    }
 
     public Optional<Edge> findEdge(Vertex v) {
         if (right != null && right.contain(v)) {
@@ -56,4 +50,25 @@ public class Vertex {
         return list;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Vertex vertex = (Vertex) o;
+
+        if (!Objects.equals(right, vertex.right)) return false;
+        if (!Objects.equals(left, vertex.left)) return false;
+        if (!Objects.equals(up, vertex.up)) return false;
+        return Objects.equals(dawn, vertex.dawn);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = right != null ? right.hashCode() : 0;
+        result = 31 * result + (left != null ? left.hashCode() : 0);
+        result = 31 * result + (up != null ? up.hashCode() : 0);
+        result = 31 * result + (dawn != null ? dawn.hashCode() : 0);
+        return result;
+    }
 }
