@@ -19,7 +19,7 @@ public class InputHandler {
 
     public GeneratorType getGeneratorType() {
         String input = scanner.nextLine();
-        if (!inputValidator.isGeneratorNumber(input) && !input.isEmpty()) {
+        if (!inputValidator.isGeneratorNumber(input)) {
             throw new NonGeneratorNumberException();
         }
 
@@ -71,7 +71,7 @@ public class InputHandler {
 
     public SolverType getSolverType() {
         String input = scanner.nextLine();
-        if (!inputValidator.isSolverNumber(input) && !input.isEmpty()) {
+        if (!inputValidator.isSolverNumber(input)) {
             throw new NonGeneratorNumberException();
         }
 
