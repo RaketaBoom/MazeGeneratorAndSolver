@@ -2,7 +2,7 @@ package backend.academy.maze.models;
 
 import backend.academy.maze.enums.Surface;
 import backend.academy.maze.exceptions.IllegalCoordinateValueException;
-import backend.academy.maze.exceptions.InvalidMazeSizeException;
+import backend.academy.maze.exceptions.IllegalSizeValueException;
 import backend.academy.maze.exceptions.NonAdjacentVerticesException;
 import backend.academy.maze.exceptions.SelfLoopException;
 import backend.academy.maze.exceptions.VertexNotInGraphException;
@@ -18,7 +18,7 @@ public class GraphMaze {
 
     public GraphMaze(int height, int width) {
         if (height < 1 || width < 1) {
-            throw new InvalidMazeSizeException();
+            throw new IllegalSizeValueException();
         }
         this.height = height;
         this.width = width;

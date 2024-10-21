@@ -11,6 +11,9 @@ import backend.academy.maze.surface.RandomSurfaceGenerator;
 import lombok.experimental.UtilityClass;
 import java.util.Random;
 
+/**
+ * Класс с фабричными методами для создания генератора и солвера
+ */
 @UtilityClass
 public class Initializer {
     public static Generator generator(GeneratorType generatorType, Random random) {

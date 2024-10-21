@@ -24,8 +24,7 @@ public class BacktrackingMethod implements Generator {
      * Метод Рекурсивного бэк трекера
      * Алгоритм:
      * 1. Мы выбираем вершину, добавляем ее в стэк вершин
-     * 2. Берем рандомную непосещенную вершину (Отслеживаем как не принадлежность ни одному остову,
-     * т.е. skeletonNumber = 0), соединяем вершины ребром с весом из рандомайзера весов (),
+     * 2. Берем рандомную соседнюю непосещенную вершину, соединяем вершины ребром с весом из рандомайзера весов (),
      * 3. С новой вершиной проделываем шаги 1 и 2, до тех пор пока нам встречаются вершины с непосещенными соседями,
      * Иначе шаг 4
      * 4. Достаем вершину из стека и проделываем шаги 2-3
@@ -122,10 +121,6 @@ public class BacktrackingMethod implements Generator {
     }
 
     private Coordinate getRandomCoordinate(List<Coordinate> unvisitedCoordinates) {
-        if (unvisitedCoordinates.isEmpty()) {
-            throw new IllegalArgumentException("Список непосещенных координат пуст.");
-        }
-
         int randomIndex = random.nextInt(unvisitedCoordinates.size());
 
         return unvisitedCoordinates.get(randomIndex);

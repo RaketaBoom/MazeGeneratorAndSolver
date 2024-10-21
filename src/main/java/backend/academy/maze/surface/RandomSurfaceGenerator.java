@@ -1,7 +1,7 @@
 package backend.academy.maze.surface;
 
 import backend.academy.maze.enums.Surface;
-import backend.academy.maze.exceptions.IllegalProbabilityValueException;
+import backend.academy.maze.exceptions.IllegalEarthProbabilityException;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 
@@ -11,7 +11,7 @@ public class RandomSurfaceGenerator {
 
     public Surface getSurface(double earthProbability) {
         if (earthProbability > 1) {
-            throw new IllegalProbabilityValueException();
+            throw new IllegalEarthProbabilityException();
         }
         // Генерируем случайное число от 0 до 1
         double randomValue = random.nextDouble();
