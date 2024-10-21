@@ -70,7 +70,7 @@ public class DijkstraAlgorithm implements Solver {
         }
         Collections.reverse(path);
 
-        if (!path.get(0).equals(start)) {
+        if (!path.getFirst().equals(start)) {
             return Collections.emptyList();
         }
         return path;

@@ -62,7 +62,7 @@ public class InputHandler {
     }
 
     public boolean getPerfectFlag() {
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().toLowerCase();
         if (!inputValidator.isYesOrNoAnswer(input)) {
             throw new UnformattedInputException();
         }

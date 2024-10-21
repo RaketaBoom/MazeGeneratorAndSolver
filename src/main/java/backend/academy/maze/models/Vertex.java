@@ -65,7 +65,7 @@ public class Vertex {
 
     @Override
     public int hashCode() {
-        int result = 17; // Стартовое простое число
+        int result = 17;
         result = 31 * result + (right != null ? right.hashCode() : 0);
         result = 37 * result + (left != null ? left.hashCode() : 0);
         result = 41 * result + (up != null ? up.hashCode() : 0);

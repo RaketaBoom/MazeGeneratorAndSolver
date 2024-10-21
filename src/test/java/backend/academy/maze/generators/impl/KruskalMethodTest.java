@@ -6,18 +6,17 @@ import backend.academy.maze.exceptions.IllegalSizeValueException;
 import backend.academy.maze.generators.Generator;
 import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.GraphMaze;
-import backend.academy.maze.renderers.impl.PlusMinusRenderer;
 import backend.academy.maze.surface.RandomSurfaceGenerator;
+import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Random;
 import static backend.academy.maze.config.Config.EARTH_PROBABILITY;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,39 +32,39 @@ class KruskalMethodTest {
         generator = new BacktrackingMethod(mockRandom, mockSurfaceGenerator);
     }
 
-    void setupMocks(){
+    void setupMocks() {
         Mockito.when(mockRandom.nextInt(anyInt())).thenReturn(0);
         Mockito.when(mockSurfaceGenerator.getSurface(EARTH_PROBABILITY)).thenReturn(Surface.EARTH);
     }
 
     @Test
-    void testGenerate_InvalidHeight_IllegalSizeValueExceptionThrown() {
-        //Arrange
+    void testGenerate_InvalidHeight_ThrowsIllegalSizeValueException() {
+        // Arrange
         int height = 0;
         int width = 2;
         boolean perfectFlag = true;
 
-        //Act & Assert
+        // Act & Assert
         assertThrows(IllegalSizeValueException.class,
             () -> generator.generate(height, width, EARTH_PROBABILITY, perfectFlag));
     }
 
     @Test
-    void testGenerate_InvalidEarthProbability_IllegalEarthProbabilityExceptionThrown(){
-        //Arrange
+    void testGenerate_InvalidEarthProbability_ThrowsIllegalEarthProbabilityException() {
+        // Arrange
         int height = 5;
         int width = 2;
         boolean perfectFlag = true;
         double earthProbability = 3;
 
-        //Act & Assert
+        // Act & Assert
         assertThrows(IllegalEarthProbabilityException.class,
             () -> generator.generate(height, width, earthProbability, perfectFlag));
     }
 
     @Test
-    void testGenerate_perfectFlagTrue_PerfectMaze(){
-        //Arrange
+    void testGenerate_perfectFlagTrue_ReturnsPerfectMaze() {
+        // Arrange
         setupMocks();
         int height = 3;
         int width = 3;
@@ -73,25 +72,26 @@ class KruskalMethodTest {
 
         GraphMaze expectedGraphMaze = createPerfectMaze();
 
-        //Act
+        // Act
         GraphMaze actualGraphMaze = generator.generate(height, width, EARTH_PROBABILITY, perfectFlag);
 
-        //Assert
+        // Assert
         assertEquals(expectedGraphMaze, actualGraphMaze);
     }
+
     @Test
-    void testGenerate_perfectFlagFalse_ImperfectMaze(){
-        //Arrange
+    void testGenerate_perfectFlagFalse_ReturnsImperfectMaze() {
+        // Arrange
         setupMocks();
         int height = 3;
         int width = 3;
         boolean perfectFlag = false;
         GraphMaze expectedGraphMaze = createImperfectMaze();
 
-        //Act
+        // Act
         GraphMaze actualGraphMaze = generator.generate(height, width, EARTH_PROBABILITY, perfectFlag);
 
-        //Assert
+        // Assert
         assertEquals(expectedGraphMaze, actualGraphMaze);
     }
 

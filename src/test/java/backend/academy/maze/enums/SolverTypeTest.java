@@ -8,24 +8,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SolverTypeTest {
 
     @Test
-    void testValueOf_NumOfKruskalMethod_KRUSKAL_METHOD() {
-        //Arrange
+    void testValueOf_NumOfKruskalMethod_ReturnsKRUSKAL_METHOD() {
+        // Arrange
         int num = 0;
         SolverType expectedType = SolverType.DIJKSTRA;
 
-        //Act
+        // Act
         SolverType actualType = SolverType.valueOf(num);
 
-        //Assert
+        // Assert
         assertEquals(expectedType, actualType);
     }
 
     @Test
-    void testValueOf_OutOfBoundsNum_NonGeneratorNumberExceptionThrown() {
-        //Arrange
+    void testValueOf_OutOfBoundsNum_ThrowsNonGeneratorNumberException() {
+        // Arrange
         int num = -1;
 
-        //Act & Assert
+        // Act & Assert
         assertThrows(NonSolverNumberException.class, () -> SolverType.valueOf(num));
     }
 }
