@@ -6,10 +6,11 @@ import backend.academy.maze.generators.Generator;
 import backend.academy.maze.generators.impl.BacktrackingMethod;
 import backend.academy.maze.generators.impl.KruskalMethod;
 import backend.academy.maze.solvers.Solver;
+import backend.academy.maze.solvers.impl.AStarAlgorithm;
 import backend.academy.maze.solvers.impl.DijkstraAlgorithm;
 import backend.academy.maze.surface.RandomSurfaceGenerator;
-import lombok.experimental.UtilityClass;
 import java.util.Random;
+import lombok.experimental.UtilityClass;
 
 /**
  * Класс с фабричными методами для создания генератора и солвера
@@ -26,6 +27,7 @@ public class Initializer {
     public static Solver solver(SolverType solverType) {
         return switch (solverType) {
             case DIJKSTRA -> new DijkstraAlgorithm();
+            case A_STAR -> new AStarAlgorithm();
         };
     }
 }

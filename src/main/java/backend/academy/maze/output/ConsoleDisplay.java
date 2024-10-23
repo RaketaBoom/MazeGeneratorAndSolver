@@ -38,7 +38,7 @@ public class ConsoleDisplay {
     public void choiceSolver() {
         stream.printf("%nВыберите один из способов алгоритмов решения лабиринта%n");
         stream.printf("1. Алгоритм Дейкстры%n");
-        stream.printf("2. ---%n");
+        stream.printf("2. Алгоритм А*%n");
         stream.printf("Укажите цифру: %n");
     }
 

@@ -6,10 +6,12 @@ import backend.academy.maze.exceptions.NonSolverNumberException;
  * Содержит типы солверов (способов решений лабиринта)
  */
 public enum SolverType {
-    DIJKSTRA;
+    DIJKSTRA,
+    A_STAR;
 
     /**
      * Возвращает объект соответствующий номеру
+     *
      * @param num - номер типа солвера
      * @return тип солвера
      * @throws NonSolverNumberException если номер не соответствует типу солвера
