@@ -18,6 +18,7 @@ import lombok.Getter;
 public class PlusMinusRenderer implements Renderer {
     private static final char PATH_SYMBOL = '@';
     private static final String INDENT = "   ";
+    private static final int DISTANCE_BETWEEN_CELLS= 4;
 
 
     @Override
@@ -60,7 +61,7 @@ public class PlusMinusRenderer implements Renderer {
 
     private void drawPath(List<StringBuilder> lines, List<Coordinate> path) {
         for (Coordinate coordinate : path) {
-            int col = 2 + 4 * coordinate.col();
+            int col = 2 + DISTANCE_BETWEEN_CELLS * coordinate.col();
             int row = 1 + 2 * coordinate.row();
             lines.get(row).setCharAt(col, PATH_SYMBOL);
         }
@@ -278,7 +279,7 @@ public class PlusMinusRenderer implements Renderer {
     }
 
     private void drawCell(StringBuilder secondLine) {
-        secondLine.append("   ");
+        secondLine.append(INDENT);
     }
 
     @Getter
@@ -287,7 +288,7 @@ public class PlusMinusRenderer implements Renderer {
         WALL_END("+", ""),
         VERTICAL_WALL_START("+", "|"),
         HORIZONTAL_WALL_START("+---", ""),
-        WALL_INTERSECTION(Wall.HORIZONTAL_WALL_START.firstLine, "|"),
+        WALL_INTERSECTION(Wall.HORIZONTAL_WALL_START.firstLine, "|"), // Я честно не хотел, но CheckStyle тиранизировал
         HORIZONTAL_WALL("----", ""),
         VERTICAL_WALL("|", "|");
 

@@ -112,21 +112,17 @@ public class KruskalMethod implements Generator {
             coordinateSkeletonMap.put(first, numberSkeleton);
             coordinateSkeletonMap.put(second, numberSkeleton);
             numberSkeleton += 1;
-        }
-        else if (firstSkeleton.isEmpty()) { // DRY???
+        } else if (firstSkeleton.isEmpty()) { // DRY???
             coordinateSkeletonMap.put(first, secondSkeleton.get());
-        }
-        else if (secondSkeleton.isEmpty()) {
+        } else if (secondSkeleton.isEmpty()) {
             coordinateSkeletonMap.put(second, firstSkeleton.get());
-        }
-        else if (firstSkeleton.get() < secondSkeleton.get()) {
+        } else if (firstSkeleton.get() < secondSkeleton.get()) {
             coordinateSkeletonMap
                 .keySet()
                 .stream()
                 .filter(x -> coordinateSkeletonMap.get(x).equals(secondSkeleton.get()))
                 .forEach(x -> coordinateSkeletonMap.put(x, firstSkeleton.get()));
-        }
-        else {
+        } else {
             coordinateSkeletonMap
                 .keySet()
                 .stream()
