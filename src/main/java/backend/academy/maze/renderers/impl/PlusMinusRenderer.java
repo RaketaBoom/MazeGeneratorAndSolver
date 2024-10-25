@@ -266,7 +266,7 @@ public class PlusMinusRenderer implements Renderer {
     }
 
     private void drawRightSurface(StringBuilder firstLine, Surface surface) {
-        firstLine.append(STR." \{surface.symbol()} ");
+        firstLine.append(String.format(" %s ", surface.symbol()));
     }
 
     private void drawDawnSurface(StringBuilder secondLine, Surface surface) {
