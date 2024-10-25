@@ -10,7 +10,7 @@ class SolverTypeTest {
     @Test
     void testValueOf_NumOfKruskalMethod_ReturnsKRUSKAL_METHOD() {
         // Arrange
-        int num = 0;
+        int num = 1;
         SolverType expectedType = SolverType.DIJKSTRA;
 
         // Act
