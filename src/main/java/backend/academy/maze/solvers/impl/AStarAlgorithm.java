@@ -26,14 +26,12 @@ public class AStarAlgorithm implements Solver {
 
         Map<Coordinate, Integer> distances = new HashMap<>();
 
-
-
         Map<Coordinate, Coordinate> previous = new HashMap<>();
 
         PriorityQueue<Coordinate> queue = new PriorityQueue<>(
             (c1, c2) -> Integer.compare(
-                distances.get(c1)+manhattanDistance(c1, end),
-                distances.get(c2)+manhattanDistance(c2, end)
+                distances.get(c1) + manhattanDistance(c1, end),
+                distances.get(c2) + manhattanDistance(c2, end)
             ));
 
         for (int i = 0; i < maze.height(); i++) {
@@ -73,7 +71,7 @@ public class AStarAlgorithm implements Solver {
         return new Solution(Collections.emptyList(), 0);
     }
 
-    private int manhattanDistance(Coordinate c1, Coordinate c2){
+    private int manhattanDistance(Coordinate c1, Coordinate c2) {
         return Math.abs(c1.col() - c2.col()) + Math.abs(c1.row() - c2.row());
     }
 

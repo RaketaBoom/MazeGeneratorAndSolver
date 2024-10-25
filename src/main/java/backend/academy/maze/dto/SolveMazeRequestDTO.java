@@ -6,9 +6,10 @@ import backend.academy.maze.models.GraphMaze;
 
 /**
  * DTO для запроса поиска решения лабиринта
- * @param graphMaze - граф лабиринта
+ *
+ * @param graphMaze  - граф лабиринта
  * @param startPoint - координаты стартовой точки
- * @param endPoint - координаты конечной точки
+ * @param endPoint   - координаты конечной точки
  * @param solverType - способ нахождения решения лабиринта
  */
 public record SolveMazeRequestDTO(

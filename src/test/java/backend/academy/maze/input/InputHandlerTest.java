@@ -36,7 +36,7 @@ class InputHandlerTest {
         "-",
         "0"
     })
-    void testGetGeneratorType_IllegalSymbol_NonGeneratorNumberExceptionThrown(String line){
+    void testGetGeneratorType_IllegalSymbol_NonGeneratorNumberExceptionThrown(String line) {
         //Arrange
         Mockito.when(mockScanner.nextLine()).thenReturn(line);
         inputHandler = new InputHandler(mockScanner, inputValidator);
@@ -44,8 +44,9 @@ class InputHandlerTest {
         //Act && Assert
         assertThrows(NonGeneratorNumberException.class, () -> inputHandler.getGeneratorType());
     }
+
     @Test
-    void testGetGeneratorType_RightEnter_GeneratorType(){
+    void testGetGeneratorType_RightEnter_GeneratorType() {
         //Arrange
         Mockito.when(mockScanner.nextLine()).thenReturn("1");
         inputHandler = new InputHandler(mockScanner, inputValidator);
@@ -65,7 +66,7 @@ class InputHandlerTest {
         "-3",
         "0 2l"
     })
-    void testGetSize_UnformattedInput_UnformattedInputExceptionThrown(String line){
+    void testGetSize_UnformattedInput_UnformattedInputExceptionThrown(String line) {
         //Arrange
         Mockito.when(mockScanner.nextLine()).thenReturn(line);
         inputHandler = new InputHandler(mockScanner, inputValidator);
@@ -80,7 +81,7 @@ class InputHandlerTest {
         "0 3",
         "40 20"
     })
-    void testGetSize_IllegalSizeValue_IllegalSizeValueExceptionThrown(String line){
+    void testGetSize_IllegalSizeValue_IllegalSizeValueExceptionThrown(String line) {
         //Arrange
         Mockito.when(mockScanner.nextLine()).thenReturn(line);
         inputHandler = new InputHandler(mockScanner, inputValidator);
@@ -90,7 +91,7 @@ class InputHandlerTest {
     }
 
     @Test
-    void testGetSize_RightEnter_Size(){
+    void testGetSize_RightEnter_Size() {
         //Arrange
         Mockito.when(mockScanner.nextLine()).thenReturn("5 5");
         inputHandler = new InputHandler(mockScanner, inputValidator);
@@ -102,6 +103,7 @@ class InputHandlerTest {
         //Assert
         assertEquals(expectedSize, actualSize);
     }
+
     @ParameterizedTest
     @ValueSource(strings = {
         "42",
@@ -110,7 +112,7 @@ class InputHandlerTest {
         "-3",
         "0 2fl"
     })
-    void testGetCoordinate_UnformattedInput_UnformattedInputExceptionThrown(String line){
+    void testGetCoordinate_UnformattedInput_UnformattedInputExceptionThrown(String line) {
         //Arrange
         Mockito.when(mockScanner.nextLine()).thenReturn(line);
         inputHandler = new InputHandler(mockScanner, inputValidator);
@@ -125,7 +127,7 @@ class InputHandlerTest {
         "9 3",
         "34 2"
     })
-    void testGetCoordinate_IllegalCoordinateValue_IllegalCoordinateValueExceptionThrown(String line){
+    void testGetCoordinate_IllegalCoordinateValue_IllegalCoordinateValueExceptionThrown(String line) {
         //Arrange
         Mockito.when(mockScanner.nextLine()).thenReturn(line);
         inputHandler = new InputHandler(mockScanner, inputValidator);
@@ -135,7 +137,7 @@ class InputHandlerTest {
     }
 
     @Test
-    void testGetCoordinate_RightEnter_Coordinate(){
+    void testGetCoordinate_RightEnter_Coordinate() {
         //Arrange
         Mockito.when(mockScanner.nextLine()).thenReturn("2 3");
         inputHandler = new InputHandler(mockScanner, inputValidator);

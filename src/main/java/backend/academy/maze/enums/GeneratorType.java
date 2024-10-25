@@ -11,6 +11,7 @@ public enum GeneratorType {
 
     /**
      * Возвращает объект соответствующий номеру
+     *
      * @param num - номер типа генератора
      * @return тип генератора
      * @throws NonGeneratorNumberException если номер не соответствует типу генератора

@@ -52,14 +52,24 @@ public class Vertex {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Vertex vertex = (Vertex) o;
 
-        if (!Objects.equals(right, vertex.right)) return false;
-        if (!Objects.equals(left, vertex.left)) return false;
-        if (!Objects.equals(up, vertex.up)) return false;
+        if (!Objects.equals(right, vertex.right)) {
+            return false;
+        }
+        if (!Objects.equals(left, vertex.left)) {
+            return false;
+        }
+        if (!Objects.equals(up, vertex.up)) {
+            return false;
+        }
         return Objects.equals(dawn, vertex.dawn);
     }
 

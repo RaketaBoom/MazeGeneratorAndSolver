@@ -3,7 +3,8 @@ package backend.academy.maze.validators;
 import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.Size;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class InputValidatorTest {
     private final InputValidator validator = new InputValidator();

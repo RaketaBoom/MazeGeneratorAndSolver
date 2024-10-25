@@ -5,10 +5,9 @@ import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.GraphMaze;
 import backend.academy.maze.models.Solution;
 import backend.academy.maze.solvers.Solver;
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DijkstraAlgorithmTest {
     Solver solver = new DijkstraAlgorithm();
@@ -43,8 +42,7 @@ class DijkstraAlgorithmTest {
         assertEquals(expectedSolution, actualSolution);
     }
 
-
-    private GraphMaze createMaze(){
+    private GraphMaze createMaze() {
         GraphMaze graphMaze = new GraphMaze(5, 4);
         graphMaze.addEdge(new Coordinate(0, 0), new Coordinate(0, 1), Surface.EARTH);
         graphMaze.addEdge(new Coordinate(0, 1), new Coordinate(0, 2), Surface.MAGIC_STONES);
@@ -69,7 +67,7 @@ class DijkstraAlgorithmTest {
         return graphMaze;
     }
 
-    private Solution getSolution1(){
+    private Solution getSolution1() {
         List<Coordinate> path = List.of(
             new Coordinate(0, 0),
             new Coordinate(1, 0),

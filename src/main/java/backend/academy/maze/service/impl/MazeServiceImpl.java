@@ -1,9 +1,9 @@
 package backend.academy.maze.service.impl;
 
-import backend.academy.maze.initializer.Initializer;
 import backend.academy.maze.dto.CreateMazeRequestDTO;
 import backend.academy.maze.dto.SolveMazeRequestDTO;
 import backend.academy.maze.generators.Generator;
+import backend.academy.maze.initializer.Initializer;
 import backend.academy.maze.models.GraphMaze;
 import backend.academy.maze.models.Solution;
 import backend.academy.maze.service.MazeService;

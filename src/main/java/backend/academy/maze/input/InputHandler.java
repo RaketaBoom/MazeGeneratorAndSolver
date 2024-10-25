@@ -12,11 +12,19 @@ import backend.academy.maze.validators.InputValidator;
 import java.util.Scanner;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Класс для обрабтки ввода
+ */
 @RequiredArgsConstructor
 public class InputHandler {
     private final Scanner scanner;
     private final InputValidator inputValidator;
 
+    /**
+     * Считывает номер типа генератора
+     *
+     * @return тип генератора
+     */
     public GeneratorType getGeneratorType() {
         String input = scanner.nextLine();
         if (!inputValidator.isGeneratorNumber(input)) {
@@ -28,6 +36,11 @@ public class InputHandler {
         return GeneratorType.valueOf(value);
     }
 
+    /**
+     * Считываает 2 положительных числа через пробел
+     *
+     * @return размер лабиринта
+     */
     public Size getSize() {
         String input = scanner.nextLine();
         if (!inputValidator.containsTwoNumbers(input)) {
@@ -45,6 +58,11 @@ public class InputHandler {
         return size;
     }
 
+    /**
+     * Считываает 2 положительных числа через пробел
+     *
+     * @return координату
+     */
     public Coordinate getCoordinate() {
         String input = scanner.nextLine();
         if (!inputValidator.containsTwoNumbers(input)) {
@@ -61,6 +79,11 @@ public class InputHandler {
         return coordinate;
     }
 
+    /**
+     * Считывает "да"/"нет", не учитывает регистр
+     *
+     * @return флаг идеального лабиринта
+     */
     public boolean getPerfectFlag() {
         String input = scanner.nextLine().toLowerCase();
         if (!inputValidator.isYesOrNoAnswer(input)) {
@@ -69,6 +92,11 @@ public class InputHandler {
         return input.equals("да");
     }
 
+    /**
+     * Считывает номер типа солвера
+     *
+     * @return тип солвера
+     */
     public SolverType getSolverType() {
         String input = scanner.nextLine();
         if (!inputValidator.isSolverNumber(input)) {

@@ -48,7 +48,7 @@ public class KruskalMethod implements Generator {
                 markVertexBelongingToOneSkeleton(pair, coordinateSkeletonMap);
             }
         }
-        if (!perfectFlag){
+        if (!perfectFlag) {
             makeGraphImperfect(graphMaze, height, width, earthProbability);
         }
         return graphMaze;
@@ -86,12 +86,17 @@ public class KruskalMethod implements Generator {
     }
 
     private void makeGraphImperfect(GraphMaze graphMaze, int height, int width, double earthProbability) {
+        int countUndeletedWalls = random.nextInt(width / 2) + 1;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width - 1; j++) {
                 Coordinate c1 = new Coordinate(i, j);
                 Coordinate c2 = new Coordinate(i, j + 1);
-                if(graphMaze.findEdge(c1, c2).isEmpty()){
+                if (graphMaze.findEdge(c1, c2).isEmpty()) {
                     graphMaze.addEdge(c1, c2, surfaceGenerator.getSurface(earthProbability));
+                    countUndeletedWalls--;
+                    if (countUndeletedWalls <= 0) {
+                        return;
+                    }
                 }
             }
         }
@@ -135,10 +140,10 @@ public class KruskalMethod implements Generator {
     }
 
     private void checkAttributes(int height, int width, double earthProbability) {
-        if(height <= 0 || width <= 0){
+        if (height <= 0 || width <= 0) {
             throw new IllegalSizeValueException();
         }
-        if(earthProbability <= 0 || earthProbability > MAX_EARTH_PROBABILITY){
+        if (earthProbability <= 0 || earthProbability > MAX_EARTH_PROBABILITY) {
             throw new IllegalEarthProbabilityException();
         }
     }

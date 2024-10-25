@@ -10,12 +10,25 @@ import java.util.Arrays;
 import java.util.Optional;
 import lombok.Getter;
 
+/**
+ * Класс для хранения графа-лабиринта и работы с ним
+ * <p>
+ * height - высота лабиринта
+ * width - ширина лабиринта
+ * graph - матрица с ссылками на все вершины графа
+ */
 @Getter
 public class GraphMaze {
     private final int height;
     private final int width;
     private final Vertex[][] graph;
 
+    /**
+     * Генерирует граф, у которого вершины никак не связаны
+     *
+     * @param height - высота лабиринта
+     * @param width  - ширина лабиринта
+     */
     public GraphMaze(int height, int width) {
         if (height < 1 || width < 1) {
             throw new IllegalSizeValueException();
@@ -25,6 +38,9 @@ public class GraphMaze {
         this.graph = generateEmptyGraph(height, width);
     }
 
+    /**
+     *
+     */
     private Vertex[][] generateEmptyGraph(int height, int width) {
         Vertex[][] matrix = new Vertex[height][width];
         for (int i = 0; i < height; i++) {
@@ -55,7 +71,7 @@ public class GraphMaze {
     }
 
     private void checkCoordinate(Coordinate c) {
-        if (!isCoordinateInBounds(c)){
+        if (!isCoordinateInBounds(c)) {
             throw new IllegalCoordinateValueException();
         }
     }
@@ -117,13 +133,21 @@ public class GraphMaze {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         GraphMaze graphMaze = (GraphMaze) o;
 
-        if (height != graphMaze.height) return false;
-        if (width != graphMaze.width) return false;
+        if (height != graphMaze.height) {
+            return false;
+        }
+        if (width != graphMaze.width) {
+            return false;
+        }
         return Arrays.deepEquals(graph, graphMaze.graph);
     }
 
