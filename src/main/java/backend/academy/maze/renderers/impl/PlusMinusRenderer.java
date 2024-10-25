@@ -18,7 +18,7 @@ import lombok.Getter;
 public class PlusMinusRenderer implements Renderer {
     private static final char PATH_SYMBOL = '@';
     private static final String INDENT = "   ";
-    private static final int DISTANCE_BETWEEN_CELLS= 4;
+    private static final int DISTANCE_BETWEEN_CELLS = 4;
 
 
     @Override
