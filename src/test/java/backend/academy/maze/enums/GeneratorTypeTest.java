@@ -10,7 +10,7 @@ class GeneratorTypeTest {
     @Test
     void testValueOf_NumOfKruskalMethod_ReturnsKRUSKAL_METHOD() {
         // Arrange
-        int num = 1;
+        int num = 2;
         GeneratorType expectedType = GeneratorType.KRUSKAL_METHOD;
 
         // Act
