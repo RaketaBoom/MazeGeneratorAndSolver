@@ -7,11 +7,11 @@ import backend.academy.maze.models.Edge;
 import backend.academy.maze.models.GraphMaze;
 import backend.academy.maze.models.Vertex;
 import backend.academy.maze.renderers.Renderer;
-import lombok.Getter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.Getter;
 
 public class PlusMinusRenderer implements Renderer {
     private static final char PATH_SYMBOL = '@';
@@ -19,14 +19,31 @@ public class PlusMinusRenderer implements Renderer {
     @Override
     public String render(GraphMaze graphMaze) {
         List<StringBuilder> lines = createLinesOfGraph(graphMaze);
+        makeGridNumbered(lines, graphMaze.height(), graphMaze.width());
 
         return getStringFromLines(lines);
+    }
+
+    private void makeGridNumbered(List<StringBuilder> lines, int height, int width) {
+        StringBuilder line = lines.getFirst();
+        line.append("     ");
+        for (int i = 0; i < width - 1; i++) {
+            line.append(String.format("%-4d", i));
+        }
+        line.append(width - 1);
+        for (int i = 0; i < height + 1; i++) {
+            lines.get(1 + 2 * i).insert(0, "   ");
+        }
+        for (int i = 0; i < height; i++) {
+            lines.get(2 + 2 * i).insert(0, String.format("%-3d", i));
+        }
     }
 
     @Override
     public String render(GraphMaze graphMaze, List<Coordinate> path) {
         List<StringBuilder> lines = createLinesOfGraph(graphMaze);
         drawPath(lines, path);
+        makeGridNumbered(lines, graphMaze.height(), graphMaze.width());
 
         return getStringFromLines(lines);
     }
@@ -47,7 +64,7 @@ public class PlusMinusRenderer implements Renderer {
 
     private List<StringBuilder> createLinesOfGraph(GraphMaze graphMaze) {
         int n = graphMaze.height();
-        List<StringBuilder> lines = generateLines(n * 2 + 1);
+        List<StringBuilder> lines = generateLines(n * 2 + 2);
         drawNorthWalls(lines, graphMaze);
         drawWestWalls(lines, graphMaze);
         drawSouthWalls(lines, graphMaze);
@@ -67,8 +84,8 @@ public class PlusMinusRenderer implements Renderer {
      * Ренедерится верхняя сторона лабиринта
      */
     private void drawNorthWalls(List<StringBuilder> lines, GraphMaze graphMaze) {
-        StringBuilder firstLine = lines.get(0);
-        StringBuilder secondLine = lines.get(1);
+        StringBuilder firstLine = lines.get(1);
+        StringBuilder secondLine = lines.get(2);
         drawWall(firstLine, secondLine, Wall.WALL_INTERSECTION);
         drawCell(secondLine);
         for (int j = 1; j < graphMaze.width(); j++) {
@@ -93,9 +110,9 @@ public class PlusMinusRenderer implements Renderer {
      */
     private void drawWestWalls(List<StringBuilder> lines, GraphMaze graphMaze) {
         for (int i = 1; i < graphMaze.height(); i++) {
-            StringBuilder firstLine = lines.get(2 * i);
-            StringBuilder secondLine = lines.get(2 * i + 1);
-            Vertex firstVertex = graphMaze.getVertex(new Coordinate(i-1, 0));
+            StringBuilder firstLine = lines.get(2 * i + 1);
+            StringBuilder secondLine = lines.get(2 * i + 2);
+            Vertex firstVertex = graphMaze.getVertex(new Coordinate(i - 1, 0));
             Vertex secondVertex = graphMaze.getVertex(new Coordinate(i, 0));
             Optional<Edge> edge = graphMaze.findEdge(firstVertex, secondVertex);
             if (edge.isPresent()) {
@@ -108,7 +125,7 @@ public class PlusMinusRenderer implements Renderer {
                 drawCell(secondLine);
             }
         }
-        StringBuilder lastLine = lines.get(graphMaze.height() * 2);
+        StringBuilder lastLine = lines.get(graphMaze.height() * 2 + 1);
         drawWall(lastLine, Wall.HORIZONTAL_WALL_START);
     }
 
@@ -116,7 +133,7 @@ public class PlusMinusRenderer implements Renderer {
      * Рендерниг нижней стороны лабиринта
      */
     private void drawSouthWalls(List<StringBuilder> lines, GraphMaze graphMaze) {
-        StringBuilder line = lines.get(graphMaze.height() * 2);
+        StringBuilder line = lines.get(graphMaze.height() * 2 + 1);
         for (int j = 1; j < graphMaze.width(); j++) {
             Vertex firstVertex = graphMaze.getVertex(new Coordinate(graphMaze.height() - 1, j));
             Vertex secondVertex = graphMaze.getVertex(new Coordinate(graphMaze.height() - 1, j - 1));
@@ -135,8 +152,8 @@ public class PlusMinusRenderer implements Renderer {
      */
     private void drawBodyMaze(List<StringBuilder> lines, GraphMaze graphMaze) {
         for (int i = 1; i < graphMaze.height(); i++) {
-            StringBuilder firstLine = lines.get(2 * i);
-            StringBuilder secondLine = lines.get(2 * i + 1);
+            StringBuilder firstLine = lines.get(2 * i + 1);
+            StringBuilder secondLine = lines.get(2 * i + 2);
             for (int j = 1; j < graphMaze.width(); j++) {
                 Vertex firstVertex = graphMaze.getVertex(new Coordinate(i - 1, j));
                 Vertex secondVertex = graphMaze.getVertex(new Coordinate(i - 1, j - 1));
@@ -161,8 +178,8 @@ public class PlusMinusRenderer implements Renderer {
      */
     private void drawEastWalls(List<StringBuilder> lines, GraphMaze graphMaze) {
         for (int i = 1; i < graphMaze.height(); i++) {
-            StringBuilder firstLine = lines.get(2 * i);
-            StringBuilder secondLine = lines.get(2 * i + 1);
+            StringBuilder firstLine = lines.get(2 * i + 1);
+            StringBuilder secondLine = lines.get(2 * i + 2);
             Vertex firstVertex = graphMaze.getVertex(new Coordinate(i - 1, graphMaze.width() - 1));
             Vertex secondVertex = graphMaze.getVertex(new Coordinate(i, graphMaze.width() - 1));
             Optional<Edge> edge = graphMaze.findEdge(firstVertex, secondVertex);
@@ -173,7 +190,6 @@ public class PlusMinusRenderer implements Renderer {
             }
         }
     }
-
 
     private void drawBlock(
         StringBuilder firstLine,
@@ -196,9 +212,7 @@ public class PlusMinusRenderer implements Renderer {
             edgeOptional4.isPresent()
         );
 
-
-
-        switch (wall){
+        switch (wall) {
             case WALL_END -> {
                 Edge edgeRight = edgeOptional4.orElseThrow(EdgeNotFoundException::new);
                 Edge edgeDawn = edgeOptional3.orElseThrow(EdgeNotFoundException::new);
@@ -222,42 +236,44 @@ public class PlusMinusRenderer implements Renderer {
     }
 
     private Wall wallType(boolean presentEdge1, boolean presentEdge2, boolean presentEdge3, boolean presentEdge4) {
-        if (presentEdge3 && presentEdge4){
+        if (presentEdge3 && presentEdge4) {
             return Wall.WALL_END;
         }
-        if (!presentEdge3 && !presentEdge4){
+        if (!presentEdge3 && !presentEdge4) {
             return Wall.WALL_INTERSECTION;
         }
         // presentEdge3 != presentEdge4
-        if (presentEdge1 && !presentEdge2 && presentEdge3){
+        if (presentEdge1 && !presentEdge2 && presentEdge3) {
             return Wall.HORIZONTAL_WALL;
         }
-        if (!presentEdge1 && presentEdge2 && !presentEdge3){
+        if (!presentEdge1 && presentEdge2 && !presentEdge3) {
             return Wall.VERTICAL_WALL;
         }
 
-        if (!presentEdge3){
+        if (!presentEdge3) {
             return Wall.VERTICAL_WALL_START;
         }
         return Wall.HORIZONTAL_WALL_START;
     }
 
-    private void drawWall(StringBuilder firstLine, StringBuilder secondLine, Wall wall){
+    private void drawWall(StringBuilder firstLine, StringBuilder secondLine, Wall wall) {
         firstLine.append(wall.firstLine());
         secondLine.append(wall.secondLine());
     }
 
-    private void drawWall(StringBuilder line, Wall wall){
+    private void drawWall(StringBuilder line, Wall wall) {
         line.append(wall.firstLine());
     }
 
-    private void drawRightSurface(StringBuilder firstLine, Surface surface){
+    private void drawRightSurface(StringBuilder firstLine, Surface surface) {
         firstLine.append(STR." \{surface.symbol()} ");
     }
-    private void drawDawnSurface(StringBuilder secondLine, Surface surface){
+
+    private void drawDawnSurface(StringBuilder secondLine, Surface surface) {
         secondLine.append(surface.symbol());
     }
-    private void drawCell(StringBuilder secondLine){
+
+    private void drawCell(StringBuilder secondLine) {
         secondLine.append("   ");
     }
 

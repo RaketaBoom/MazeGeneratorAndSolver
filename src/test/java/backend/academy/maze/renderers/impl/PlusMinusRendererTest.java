@@ -1,18 +1,18 @@
 package backend.academy.maze.renderers.impl;
 
+import backend.academy.maze.enums.Surface;
 import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.GraphMaze;
-import backend.academy.maze.enums.Surface;
 import backend.academy.maze.renderers.Renderer;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlusMinusRendererTest {
     static Renderer renderer;
 
     @BeforeAll
-    public static void setup(){
+    public static void setup() {
         renderer = new PlusMinusRenderer();
     }
 
@@ -55,7 +55,7 @@ class PlusMinusRendererTest {
         assertEquals(expendStringMaze, actualString);
     }
 
-    private GraphMaze createMaze1(){
+    private GraphMaze createMaze1() {
         GraphMaze graphMaze = new GraphMaze(5, 4);
         graphMaze.addEdge(new Coordinate(0, 0), new Coordinate(0, 1), Surface.EARTH);
         graphMaze.addEdge(new Coordinate(0, 1), new Coordinate(0, 2), Surface.EARTH);
@@ -79,7 +79,7 @@ class PlusMinusRendererTest {
         return graphMaze;
     }
 
-    private GraphMaze createMaze2(){
+    private GraphMaze createMaze2() {
         GraphMaze graphMaze = new GraphMaze(5, 4);
         graphMaze.addEdge(new Coordinate(0, 0), new Coordinate(0, 1), Surface.EARTH);
         graphMaze.addEdge(new Coordinate(0, 1), new Coordinate(0, 2), Surface.MAGIC_STONES);
@@ -103,47 +103,50 @@ class PlusMinusRendererTest {
         return graphMaze;
     }
 
-    private GraphMaze createMaze3(){
+    private GraphMaze createMaze3() {
         return new GraphMaze(1, 1);
     }
 
-    private String getExpendStringMaze1(){
+    private String getExpendStringMaze1() {
         return """
-            +---------------+
-            |               |
-            +---+   +---+   |
-            |   |       |   |
-            |   +---+   +---+
-            |       |       |
-            |   +   +---+   |
-            |   |       |   |
-            |   +---+   +   |
-            |       |       |
-            +-------+-------+\
+                 0   1   2   3
+               +---------------+
+            0  |               |
+               +---+   +---+   |
+            1  |   |       |   |
+               |   +---+   +---+
+            2  |       |       |
+               |   +   +---+   |
+            3  |   |       |   |
+               |   +---+   +   |
+            4  |       |       |
+               +-------+-------+\
             """;
     }
 
-    private String getExpendStringMaze2(){
+    private String getExpendStringMaze2() {
         return """
-            +---------------+
-            |       $   $   |
-            +---+   +---+   |
-            |   |       |   |
-            | $ +---+ # +---+
-            |       |       |
-            |   + $ +---+ # |
-            |   |       |   |
-            | # +---+   +   |
-            |       |       |
-            +-------+-------+\
+                 0   1   2   3
+               +---------------+
+            0  |       $   $   |
+               +---+   +---+   |
+            1  |   |       |   |
+               | $ +---+ # +---+
+            2  |       |       |
+               |   + $ +---+ # |
+            3  |   |       |   |
+               | # +---+   +   |
+            4  |       |       |
+               +-------+-------+\
             """;
     }
 
-    private String getExpendStringMaze3(){
+    private String getExpendStringMaze3() {
         return """
-            +---+
-            |   |
-            +---+\
+                 0
+               +---+
+            0  |   |
+               +---+\
             """;
     }
 }
