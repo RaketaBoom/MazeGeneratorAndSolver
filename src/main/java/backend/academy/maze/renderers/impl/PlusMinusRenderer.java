@@ -2,6 +2,7 @@ package backend.academy.maze.renderers.impl;
 
 import backend.academy.maze.enums.Surface;
 import backend.academy.maze.exceptions.EdgeNotFoundException;
+import backend.academy.maze.exceptions.WallNotDefineException;
 import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.Edge;
 import backend.academy.maze.models.GraphMaze;
@@ -11,10 +12,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 public class PlusMinusRenderer implements Renderer {
     private static final char PATH_SYMBOL = '@';
+    private static final String INDENT = "   ";
+
 
     @Override
     public String render(GraphMaze graphMaze) {
@@ -32,7 +36,7 @@ public class PlusMinusRenderer implements Renderer {
         }
         line.append(width - 1);
         for (int i = 0; i < height + 1; i++) {
-            lines.get(1 + 2 * i).insert(0, "   ");
+            lines.get(1 + 2 * i).insert(0, INDENT);
         }
         for (int i = 0; i < height; i++) {
             lines.get(2 + 2 * i).insert(0, String.format("%-3d", i));
@@ -231,29 +235,29 @@ public class PlusMinusRenderer implements Renderer {
                 drawWall(firstLine, secondLine, wall);
                 drawRightSurface(firstLine, edgeRight.surface());
             }
+            case null, default -> throw new WallNotDefineException();
         }
         drawCell(secondLine);
     }
 
     private Wall wallType(boolean presentEdge1, boolean presentEdge2, boolean presentEdge3, boolean presentEdge4) {
+        Wall result;
+
         if (presentEdge3 && presentEdge4) {
-            return Wall.WALL_END;
-        }
-        if (!presentEdge3 && !presentEdge4) {
-            return Wall.WALL_INTERSECTION;
-        }
-        // presentEdge3 != presentEdge4
-        if (presentEdge1 && !presentEdge2 && presentEdge3) {
-            return Wall.HORIZONTAL_WALL;
-        }
-        if (!presentEdge1 && presentEdge2 && !presentEdge3) {
-            return Wall.VERTICAL_WALL;
+            result = Wall.WALL_END;
+        } else if (!presentEdge3 && !presentEdge4) {
+            result = Wall.WALL_INTERSECTION;
+        } else if (presentEdge1 && !presentEdge2 && presentEdge3) {
+            result = Wall.HORIZONTAL_WALL;
+        } else if (!presentEdge1 && presentEdge2 && !presentEdge3) {
+            result = Wall.VERTICAL_WALL;
+        } else if (!presentEdge3) {
+            result = Wall.VERTICAL_WALL_START;
+        } else {
+            result = Wall.HORIZONTAL_WALL_START;
         }
 
-        if (!presentEdge3) {
-            return Wall.VERTICAL_WALL_START;
-        }
-        return Wall.HORIZONTAL_WALL_START;
+        return result;
     }
 
     private void drawWall(StringBuilder firstLine, StringBuilder secondLine, Wall wall) {
@@ -278,19 +282,16 @@ public class PlusMinusRenderer implements Renderer {
     }
 
     @Getter
+    @AllArgsConstructor
     enum Wall {
         WALL_END("+", ""),
         VERTICAL_WALL_START("+", "|"),
         HORIZONTAL_WALL_START("+---", ""),
-        WALL_INTERSECTION("+---", "|"),
+        WALL_INTERSECTION(Wall.HORIZONTAL_WALL_START.firstLine, "|"),
         HORIZONTAL_WALL("----", ""),
         VERTICAL_WALL("|", "|");
+
         private final String firstLine;
         private final String secondLine;
-
-        Wall(String s1, String s2) {
-            this.firstLine = s1;
-            this.secondLine = s2;
-        }
     }
 }

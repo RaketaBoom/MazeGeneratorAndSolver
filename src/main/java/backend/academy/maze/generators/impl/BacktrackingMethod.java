@@ -109,8 +109,8 @@ public class BacktrackingMethod implements Generator {
         for (Coordinate direction : directions) {
             Coordinate newCoordinate = currCoordinate.add(direction);
 
-            if (isWithinBounds(newCoordinate, graphMaze.height(), graphMaze.width()) &&
-                isUnvisitedCoordinate(newCoordinate, visitedCoordinates)) {
+            if (isWithinBounds(newCoordinate, graphMaze.height(), graphMaze.width())
+                && isUnvisitedCoordinate(newCoordinate, visitedCoordinates)) {
                 adjacentCoordinates.add(newCoordinate);
             }
         }

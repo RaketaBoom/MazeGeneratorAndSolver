@@ -6,7 +6,7 @@ import backend.academy.maze.models.GraphMaze;
 import backend.academy.maze.models.Solution;
 
 public interface MazeService {
-    public GraphMaze createMaze(CreateMazeRequestDTO createMazeRequestDTO);
+    GraphMaze createMaze(CreateMazeRequestDTO createMazeRequestDTO);
 
-    public Solution solveMaze(SolveMazeRequestDTO solveMazeRequestDTO);
+    Solution solveMaze(SolveMazeRequestDTO solveMazeRequestDTO);
 }

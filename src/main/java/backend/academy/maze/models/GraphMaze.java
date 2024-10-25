@@ -38,9 +38,6 @@ public class GraphMaze {
         this.graph = generateEmptyGraph(height, width);
     }
 
-    /**
-     *
-     */
     private Vertex[][] generateEmptyGraph(int height, int width) {
         Vertex[][] matrix = new Vertex[height][width];
         for (int i = 0; i < height; i++) {

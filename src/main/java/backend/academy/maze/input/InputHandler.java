@@ -20,6 +20,8 @@ public class InputHandler {
     private final Scanner scanner;
     private final InputValidator inputValidator;
 
+    private static final String WHITESPACE_REGEX = "\\s+";
+
     /**
      * Считывает номер типа генератора
      *
@@ -46,7 +48,7 @@ public class InputHandler {
         if (!inputValidator.containsTwoNumbers(input)) {
             throw new UnformattedInputException();
         }
-        String[] parts = input.trim().split("\\s+");
+        String[] parts = input.trim().split(WHITESPACE_REGEX);
         int height = Integer.parseInt(parts[0]);
         int width = Integer.parseInt(parts[1]);
 
@@ -68,7 +70,7 @@ public class InputHandler {
         if (!inputValidator.containsTwoNumbers(input)) {
             throw new UnformattedInputException();
         }
-        String[] parts = input.trim().split("\\s+");
+        String[] parts = input.trim().split(WHITESPACE_REGEX);
         int row = Integer.parseInt(parts[0]);
         int col = Integer.parseInt(parts[1]);
 

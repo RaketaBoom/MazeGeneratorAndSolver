@@ -39,7 +39,7 @@ public class ConsoleDisplay {
         stream.printf("%nВыберите один из способов алгоритмов решения лабиринта%n");
         stream.printf("1. Алгоритм Дейкстры%n");
         stream.printf("2. Алгоритм А*%n");
-        stream.printf("Укажите цифру: %n");
+        stream.printf("Выберите цифру: %n");
     }
 
     public void solution(String stringMaze, int distance) {

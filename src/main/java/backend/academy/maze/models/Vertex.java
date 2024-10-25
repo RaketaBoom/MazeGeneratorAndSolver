@@ -18,23 +18,23 @@ public class Vertex {
     private Edge dawn;
 
     public Optional<Edge> findEdge(Vertex v) {
+        Edge foundEdge = null;
+
         if (right != null && right.contain(v)) {
-            return Optional.of(right);
+            foundEdge = right;
+        } else if (left != null && left.contain(v)) {
+            foundEdge = left;
+        } else if (up != null && up.contain(v)) {
+            foundEdge = up;
+        } else if (dawn != null && dawn.contain(v)) {
+            foundEdge = dawn;
         }
-        if (left != null && left.contain(v)) {
-            return Optional.of(left);
-        }
-        if (up != null && up.contain(v)) {
-            return Optional.of(up);
-        }
-        if (dawn != null && dawn.contain(v)) {
-            return Optional.of(dawn);
-        }
-        return Optional.empty();
+
+        return Optional.ofNullable(foundEdge);
     }
 
     public List<Edge> findAllEdges() {
-        List<Edge> list = new ArrayList<>(4);
+        List<Edge> list = new ArrayList<>();
         if (right != null) {
             list.add(right);
         }
