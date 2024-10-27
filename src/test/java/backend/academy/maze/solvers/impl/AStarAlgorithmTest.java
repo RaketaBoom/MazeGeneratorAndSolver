@@ -5,9 +5,9 @@ import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.GraphMaze;
 import backend.academy.maze.models.Solution;
 import backend.academy.maze.solvers.Solver;
-import org.junit.jupiter.api.Test;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AStarAlgorithmTest {
     Solver solver = new AStarAlgorithm();
