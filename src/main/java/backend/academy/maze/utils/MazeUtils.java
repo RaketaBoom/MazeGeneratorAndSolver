@@ -7,15 +7,17 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class MazeUtils {
-    public static void makeGraphImperfect(GraphMaze graphMaze, int countUndeletedWalls, RandomSurfaceGenerator surfaceGenerator, double earthProbability) {
+    public static void makeGraphImperfect(GraphMaze graphMaze, int countOfWallsToRemove,
+                                          RandomSurfaceGenerator surfaceGenerator, double earthProbability) {
+        int countOfUndeletedWalls = countOfWallsToRemove;
         for (int i = 0; i < graphMaze.height(); i++) {
             for (int j = 0; j < graphMaze.width() - 1; j++) {
                 Coordinate c1 = new Coordinate(i, j);
                 Coordinate c2 = new Coordinate(i, j + 1);
                 if (graphMaze.findEdge(c1, c2).isEmpty()) {
                     graphMaze.addEdge(c1, c2, surfaceGenerator.getSurface(earthProbability));
-                    countUndeletedWalls--;
-                    if (countUndeletedWalls <= 0) {
+                    countOfUndeletedWalls--;
+                    if (countOfUndeletedWalls <= 0) {
                         return;
                     }
                 }
