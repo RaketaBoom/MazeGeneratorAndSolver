@@ -6,6 +6,7 @@ import backend.academy.maze.models.GraphMaze;
 import backend.academy.maze.renderers.Renderer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlusMinusRendererTest {
@@ -18,41 +19,70 @@ class PlusMinusRendererTest {
 
     @Test
     void testRender_CorrectGraph1() {
-        //Arrange
-        String expendStringMaze = getExpendStringMaze1();
+        // Arrange
+        String expectedStringMaze = getExpectedStringMaze1();
         GraphMaze graphMaze = createMaze1();
 
-        //Act
+        // Act
         String actualString = renderer.render(graphMaze);
 
-        //Assert
-        assertEquals(expendStringMaze, actualString);
+        // Assert
+        assertEquals(expectedStringMaze, actualString);
     }
 
     @Test
     void testRender_CorrectGraph2() {
-        //Arrange
-        String expendStringMaze = getExpendStringMaze2();
+        // Arrange
+        String expectedStringMaze = getExpectedStringMaze2();
         GraphMaze graphMaze = createMaze2();
 
-        //Act
+        // Act
         String actualString = renderer.render(graphMaze);
 
-        //Assert
-        assertEquals(expendStringMaze, actualString);
+        // Assert
+        assertEquals(expectedStringMaze, actualString);
     }
 
     @Test
     void testRender_CorrectGraph3() {
-        //Arrange
-        String expendStringMaze = getExpendStringMaze3();
+        // Arrange
+        String expectedStringMaze = getExpectedStringMaze3();
         GraphMaze graphMaze = createMaze3();
 
-        //Act
+        // Act
         String actualString = renderer.render(graphMaze);
 
-        //Assert
-        assertEquals(expendStringMaze, actualString);
+        // Assert
+        assertEquals(expectedStringMaze, actualString);
+    }
+
+    @Test
+    void testRender_CorrectGraphAndPath(){
+        // Arrange
+        String expectedStringMaze = getExpectedStringMazeWithPath();
+        GraphMaze graphMaze = createMaze2();
+        List<Coordinate> path = getMazePath();
+
+        // Act
+        String actualString = renderer.render(graphMaze, path);
+
+        // Assert
+        assertEquals(expectedStringMaze, actualString);
+    }
+
+    private List<Coordinate> getMazePath() {
+        return List.of(
+            new Coordinate(0, 0),
+            new Coordinate(0, 1),
+            new Coordinate(1, 1),
+            new Coordinate(1, 2),
+            new Coordinate(2, 2),
+            new Coordinate(2, 3),
+            new Coordinate(3, 3),
+            new Coordinate(4, 3),
+            new Coordinate(4, 2),
+            new Coordinate(3, 2)
+        );
     }
 
     private GraphMaze createMaze1() {
@@ -107,7 +137,7 @@ class PlusMinusRendererTest {
         return new GraphMaze(1, 1);
     }
 
-    private String getExpendStringMaze1() {
+    private String getExpectedStringMaze1() {
         return """
                  0   1   2   3
                +---------------+
@@ -124,7 +154,7 @@ class PlusMinusRendererTest {
             """;
     }
 
-    private String getExpendStringMaze2() {
+    private String getExpectedStringMaze2() {
         return """
                  0   1   2   3
                +---------------+
@@ -141,12 +171,29 @@ class PlusMinusRendererTest {
             """;
     }
 
-    private String getExpendStringMaze3() {
+    private String getExpectedStringMaze3() {
         return """
                  0
                +---+
             0  |   |
                +---+\
+            """;
+    }
+
+    private String getExpectedStringMazeWithPath() {
+        return """
+                 0   1   2   3
+               +---------------+
+            0  | @   @ $   $   |
+               +---+   +---+   |
+            1  |   | @   @ |   |
+               | $ +---+ # +---+
+            2  |       | @   @ |
+               |   + $ +---+ # |
+            3  |   |     @ | @ |
+               | # +---+   +   |
+            4  |       | @   @ |
+               +-------+-------+\
             """;
     }
 }
