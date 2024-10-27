@@ -62,7 +62,7 @@ public class PlusMinusRenderer implements Renderer {
     private void drawPath(List<StringBuilder> lines, List<Coordinate> path) {
         for (Coordinate coordinate : path) {
             int col = 2 + DISTANCE_BETWEEN_CELLS * coordinate.col();
-            int row = 1 + 2 * coordinate.row();
+            int row = 2 + 2 * coordinate.row();
             lines.get(row).setCharAt(col, PATH_SYMBOL);
         }
     }

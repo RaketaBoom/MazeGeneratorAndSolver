@@ -28,7 +28,7 @@ public class ConsoleDisplay {
     }
 
     public void enterStartPoint() {
-        stream.printf("Введите координаты начальной точки:%n");
+        stream.printf("%nВведите координаты начальной точки:%n");
     }
 
     public void enterEndPoint() {
@@ -45,7 +45,7 @@ public class ConsoleDisplay {
     public void solution(String stringMaze, int distance) {
         stream.printf("Построенный маршрут:%n");
         stream.printf(stringMaze);
-        stream.printf("Затраченное время: %d минут%n", distance);
+        stream.printf("%nЗатраченное время: %d минут%n", distance);
     }
 
     public void errorMessage(String message) {
