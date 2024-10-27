@@ -14,11 +14,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import static backend.academy.maze.utils.MazeUtils.makeGraphImperfect;
 
 @RequiredArgsConstructor
 public class BacktrackingMethod implements Generator {
-    public final Random random;
-    public final RandomSurfaceGenerator surfaceGenerator;
+    private final Random random;
+    private final RandomSurfaceGenerator surfaceGenerator;
     private static final double MAX_EARTH_PROBABILITY = 1;
 
     /**
@@ -61,26 +62,9 @@ public class BacktrackingMethod implements Generator {
             }
         }
         if (!perfectFlag) {
-            makeGraphImperfect(graphMaze, height, width, earthProbability);
+            makeGraphImperfect(graphMaze, random.nextInt(width / 2) + 1, surfaceGenerator, earthProbability);
         }
         return graphMaze;
-    }
-
-    private void makeGraphImperfect(GraphMaze graphMaze, int height, int width, double earthProbability) {
-        int countUndeletedWalls = random.nextInt(width / 2) + 1;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width - 1; j++) {
-                Coordinate c1 = new Coordinate(i, j);
-                Coordinate c2 = new Coordinate(i, j + 1);
-                if (graphMaze.findEdge(c1, c2).isEmpty()) {
-                    graphMaze.addEdge(c1, c2, surfaceGenerator.getSurface(earthProbability));
-                    countUndeletedWalls--;
-                    if (countUndeletedWalls <= 0) {
-                        return;
-                    }
-                }
-            }
-        }
     }
 
     private void checkAttributes(int height, int width, double earthProbability) {
