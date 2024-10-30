@@ -5,8 +5,8 @@ import backend.academy.maze.enums.SolverType;
 import backend.academy.maze.models.Coordinate;
 import backend.academy.maze.models.Size;
 import lombok.Setter;
-import static backend.academy.maze.config.Config.MAX_HEIGHT;
-import static backend.academy.maze.config.Config.MAX_WIDTH;
+import static backend.academy.maze.constants.Constants.MAX_HEIGHT;
+import static backend.academy.maze.constants.Constants.MAX_WIDTH;
 
 @Setter
 public class InputValidator {

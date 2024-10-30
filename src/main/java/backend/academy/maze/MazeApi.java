@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Random;
 import java.util.Scanner;
-import static backend.academy.maze.config.Config.EARTH_PROBABILITY;
+import static backend.academy.maze.constants.Constants.EARTH_PROBABILITY;
 
 public class MazeApi {
     private final InputHandler input;

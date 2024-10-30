@@ -17,6 +17,13 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class Initializer {
+    /**
+     * Принимает enum-объект тип генератора и объект random, вызвращает соответствующий типу генератор
+     *
+     * @param generatorType - тип генератора
+     * @param random        - объект random
+     * @return одну из реализаций Generator
+     */
     public static Generator generator(GeneratorType generatorType, Random random) {
         return switch (generatorType) {
             case BACKTRACKING_METHOD -> new BacktrackingMethod(random, new RandomSurfaceGenerator(random));
@@ -24,6 +31,12 @@ public class Initializer {
         };
     }
 
+    /**
+     * Принимает enum-объект тип солвера, вызвращает соответствующий типу солвер
+     *
+     * @param solverType - тип солвера
+     * @return одну из реализаций Solver
+     */
     public static Solver solver(SolverType solverType) {
         return switch (solverType) {
             case DIJKSTRA -> new DijkstraAlgorithm();

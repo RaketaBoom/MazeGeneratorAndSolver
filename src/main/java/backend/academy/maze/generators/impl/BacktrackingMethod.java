@@ -18,9 +18,10 @@ import static backend.academy.maze.utils.MazeUtils.makeGraphImperfect;
 
 @RequiredArgsConstructor
 public class BacktrackingMethod implements Generator {
+    private static final double MAX_EARTH_PROBABILITY = 1;
+
     private final Random random;
     private final RandomSurfaceGenerator surfaceGenerator;
-    private static final double MAX_EARTH_PROBABILITY = 1;
 
     /**
      * Метод Рекурсивного бэк трекера

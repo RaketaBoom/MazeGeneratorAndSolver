@@ -17,10 +17,10 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 public class InputHandler {
+    private static final String WHITESPACE_REGEX = "\\s+";
+
     private final Scanner scanner;
     private final InputValidator inputValidator;
-
-    private static final String WHITESPACE_REGEX = "\\s+";
 
     /**
      * Считывает номер типа генератора

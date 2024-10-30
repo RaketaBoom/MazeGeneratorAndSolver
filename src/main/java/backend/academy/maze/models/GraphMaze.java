@@ -38,22 +38,25 @@ public class GraphMaze {
         this.graph = generateEmptyGraph(height, width);
     }
 
-    private Vertex[][] generateEmptyGraph(int height, int width) {
-        Vertex[][] matrix = new Vertex[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                matrix[i][j] = new Vertex();
-            }
-        }
-        return matrix;
-    }
-
+    /**
+     * Проверяет содержит ли вершину граф
+     *
+     * @param v - объект вершины
+     * @return - boolean-значение содержит или нет
+     */
     public boolean containVertex(Vertex v) {
         return Arrays.stream(graph)
             .flatMap(Arrays::stream)
             .anyMatch(x -> x == v);
     }
 
+    /**
+     * Находит ребро между двумя вершинами
+     *
+     * @param v1 - первая вершина
+     * @param v2 - вторая вершина
+     * @return Optional-обертку над ребром
+     */
     public Optional<Edge> findEdge(Vertex v1, Vertex v2) {
         if (!containVertex(v1) && containVertex(v2)) {
             return Optional.empty();
@@ -61,31 +64,22 @@ public class GraphMaze {
         return v1.findEdge(v2);
     }
 
+    /**
+     * Находит ребро между двумя координатами вершин
+     *
+     * @param c1 - координаты первой вершины
+     * @param c2 - координаты второй вершины
+     * @return Optional-обертку над ребром
+     */
     public Optional<Edge> findEdge(Coordinate c1, Coordinate c2) {
         checkCoordinate(c1);
         checkCoordinate(c2);
         return findEdge(getVertex(c1), getVertex(c2));
     }
 
-    private void checkCoordinate(Coordinate c) {
-        if (!isCoordinateInBounds(c)) {
-            throw new IllegalCoordinateValueException();
-        }
-    }
-
-    private boolean isCoordinateInBounds(Coordinate coordinate) {
-        return coordinate.row() >= 0 && coordinate.row() < height
-            && coordinate.col() >= 0 && coordinate.col() < width;
-    }
-
-    public Vertex getVertex(Coordinate c) {
-        if ((c.row() >= height || c.row() < 0)
-            && (c.col() >= width || c.col() < 0)) {
-            throw new IllegalCoordinateValueException();
-        }
-        return graph[c.row()][c.col()];
-    }
-
+    /**
+     * Возвращает вершину по координатам
+     */
     public Coordinate getCoordinateOfVertex(Vertex v) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -154,5 +148,34 @@ public class GraphMaze {
         result = 31 * result + width;
         result = 31 * result + Arrays.deepHashCode(graph);
         return result;
+    }
+
+    public Vertex getVertex(Coordinate c) {
+        if ((c.row() >= height || c.row() < 0)
+            && (c.col() >= width || c.col() < 0)) {
+            throw new IllegalCoordinateValueException();
+        }
+        return graph[c.row()][c.col()];
+    }
+
+    private Vertex[][] generateEmptyGraph(int height, int width) {
+        Vertex[][] matrix = new Vertex[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                matrix[i][j] = new Vertex();
+            }
+        }
+        return matrix;
+    }
+
+    private void checkCoordinate(Coordinate c) {
+        if (!isCoordinateInBounds(c)) {
+            throw new IllegalCoordinateValueException();
+        }
+    }
+
+    private boolean isCoordinateInBounds(Coordinate coordinate) {
+        return coordinate.row() >= 0 && coordinate.row() < height
+            && coordinate.col() >= 0 && coordinate.col() < width;
     }
 }

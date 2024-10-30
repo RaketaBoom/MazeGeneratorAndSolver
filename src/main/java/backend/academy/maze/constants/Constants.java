@@ -1,4 +1,4 @@
-package backend.academy.maze.config;
+package backend.academy.maze.constants;
 
 import lombok.experimental.UtilityClass;
 
@@ -10,7 +10,7 @@ import lombok.experimental.UtilityClass;
  * Все значения можно изменять и настраивать под себя
  */
 @UtilityClass
-public class Config {
+public class Constants {
     public static final int MAX_HEIGHT = 20;
     public static final int MAX_WIDTH = 20;
     public static final double EARTH_PROBABILITY = 0.75;

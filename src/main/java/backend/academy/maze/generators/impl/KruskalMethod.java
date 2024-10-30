@@ -33,6 +33,7 @@ public class KruskalMethod implements Generator {
      * @param height           - высота лабиринта
      * @param width            - ширина лабиринта
      * @param earthProbability - вероятность пустого прохода
+     * @return граф сгенерированного лабиринта
      */
     @Override
     public GraphMaze generate(int height, int width, double earthProbability, boolean perfectFlag) {
